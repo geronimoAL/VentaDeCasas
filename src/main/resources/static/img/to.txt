@@ -1,0 +1,5 @@
+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
+git remote add origin https://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@github.com/geronimoAL/Nba.git
+git remote add origin https://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@github.com/geronimoAL/borrador.git 
+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
+git remote add origin https://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@github.com/geronimoAL/borrador.git

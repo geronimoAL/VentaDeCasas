@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/inicio.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+              integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+        <title>Inicio</title>
+    </head>
+
+    <body>
+        <nav th:replace="/fragments/nav :: nav"></nav>
+        <section class="container mt-2">
+            <div class="container">
+                <div class="row justify-content-center mt-3">
+                    <div class="col-5">
+                        <p class="tipo">¿QUE DESEA HACER?</p>
+                    </div>
+                </div>
+                <div class="row ml-4">
+                    <div class="col-12 col-sm-3 col-md-4 col-lg-4 col-xl-4  mt-3" >
+                        <a class="btn btn-primary largo"style="font-size: 30px;" href="#">Agregar casa</a>
+                    </div>
+                    <div class="col-12 col-sm-3 col-md-4 col-lg-4 col-xl-4 mt-3">
+                        <a class="btn btn-success largo" style="font-size: 30px;"href="#">Modificar casa</a>
+                    </div>
+                    <div class="col-12 col-sm-3 col-md-4 col-lg-4 col-xl-4 mt-3">
+                        <a class="btn btn-danger largo" style="font-size: 30px;" href="#">Eliminar casa</a>
+                    </div>
+                </div>
+            </div>
+                <div class="container">
+                    <div class="row col-sm-12 col-lg-4 ml-3">
+                        <a class="mt-4" href="#">
+                            <p class="text-primary"> Ver todas las casas </p>
+                        </a>
+                    </div>
+                    <div class="row" th:each="li : ${list}">
+                        <div class="col-sm-12">
+                            <div id="inam" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <div class="container">
+                                            <div class="row ml-5 mr-5 ">
+                                                <div class="col-sm-12 col-lg-4">
+                                                    <div class="card border border-secondary"
+                                                         style="width: 300px;margin: auto;">
+                                                        <img th:src="${'/foto/vivienda?id=' + li.id + '&num=0'}" class="card-img-top">
+                                                        <div class="card-body">
+                                                            <div>
+                                                                <img src="/img/signo-de-dolar.png"
+                                                                     style="height: 30px;width: 30px;" alt="">
+                                                            </div>
+                                                            <div class="row justify-content-around mt-3">
+                                                                <img th:src="@{\img\bathtub.png}"
+                                                                     style="height: 20px;width: 20px;">
+                                                                <p th:text="${li.banio}"></p>
+                                                                <img th:src="@{/img/bedroom.png}"
+                                                                     style="height: 20px;width: 20px;">
+                                                                <p th:text="${li.dormitorio}"></p>
+                                                                <img th:src="@{/img/car-in-garage.png}"
+                                                                     style="height: 20px;width: 20px;">
+                                                                <p th:text="${li.cochera}"></p>
+                                                                <img th:src="@{/img/apertura-de-puerta-abierta.png}"
+                                                                     style="height: 20px;width: 20px;">
+                                                                <p th:text="${li.ambiente}"></p>
+                                                                <img th:src="@{/img/medida-cuadrada.png}"
+                                                                     style="height: 20px;width: 20px;">
+                                                                <p th:text="${li.mt}"></p>
+                                                            </div>
+                                                            <div class="row  mt-2 ml-2">
+                                                                <img th:src="@{/img/ubicacion.png}"
+                                                                     style="height: 20px;width: 20px;">
+                                                                <p th:text="${li.ubicacion}"></p>
+                                                            </div>
+                                                            <div class="card-text">
+                                                                <img th:src="@{/img/llamada-telefonica.png}"
+                                                                     style="height: 25px;width: 30px;">
+                                                                <p></p>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+<!--                                                 <div class="col-sm-12 col-lg-4">
+                                                    <div class="card border border-secondary" style="width: 300px;">
+                                                        <img src="../static/img/CASA22.jpg" class="card-img-top">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title">Why you should use skin masks ?</h4>
+                                                            <p class="card-text">Skin masks help us to make are skin fresh
+                                                                and also they protect our skin from the harm rays of sun</p>
+                                                            <button type="button" class="btn btn-warning">Read More</button>
+    
+                                                        </div>
+    
+                                                    </div>
+    
+                                                </div>
+                                                <div class="col-sm-12 col-lg-4">
+                                                    <div class="card border border-secondary" style="width: 300px;">
+                                                        <img src="../static/img/casa3.jpeg" class="card-img-top">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title">Why you should use skin masks ?</h4>
+                                                            <p class="card-text">Skin masks help us to make are skin fresh
+                                                                and also they protect our skin from the harm rays of sun</p>
+                                                            <button type="button" class="btn btn-warning">Read More</button>
+    
+                                                        </div>
+    
+                                                    </div>
+    
+                                                </div>-->
+    
+                                            </div>
+    
+                                        </div> 
+
+
+                                            </div>
+<!--                                            <div class="carousel-item">
+                                                <div class="container">
+                                                    <div class="row ml-5 mr-5">
+                                                        <div class="col-sm-12 col-lg-4">
+                                                            <div class="card border border-secondary"
+                                                                style="width: 300px;margin: auto;">
+                                                                <img src="../static/img/casa3.jpeg" class="card-img-top">
+                                                                <div class="card-body">
+                                                                    <h4 class="card-title">Why you should use skin masks ?</h4>
+                                                                    <p class="card-text">Skin masks help us to make are skin fresh
+                                                                        and also they protect our skin from the harm rays of sun</p>
+                                                                    <button type="button" class="btn btn-warning">Read More</button>
+            
+                                                                </div>
+            
+                                                            </div>
+            
+                                                        </div>
+                                                        <div class="col-sm-12 col-lg-4">
+                                                            <div class="card border border-secondary" style="width: 300px;">
+                                                                <img src="../static/img/CASA22.jpg" class="card-img-top">
+                                                                <div class="card-body">
+                                                                    <h4 class="card-title">Why you should use skin masks ?</h4>
+                                                                    <p class="card-text">Skin masks help us to make are skin fresh
+                                                                        and also they protect our skin from the harm rays of sun</p>
+                                                                    <button type="button" class="btn btn-warning">Read More</button>
+            
+                                                                </div>
+            
+                                                            </div>
+            
+                                                        </div>
+                                                        <div class="col-sm-12 col-lg-4">
+                                                            <div class="card border border-secondary" style="width: 300px;">
+                                                                <img src="../static/img/casa1.jpeg" class="card-img-top">
+                                                                <div class="card-body">
+                                                                    <h4 class="card-title">Why you should use skin masks ?</h4>
+                                                                    <p class="card-text">Skin masks help us to make are skin fresh
+                                                                        and also they protect our skin from the harm rays of sun</p>
+                                                                    <button type="button" class="btn btn-warning">Read More</button>
+            
+                                                                </div>
+            
+                                                            </div>
+            
+                                                        </div>
+            
+                                                    </div>
+            
+                                                </div>
+            
+            
+                                            </div> -->
+
+                                        </div>
+                                        <a href="#inam" class="carousel-control-prev color " role:"button" data-slide="prev">
+                                           <img src="https://img.icons8.com/ios/50/fa314a/circled-chevron-left.png" />
+                                        </a>
+                                        <a href="#inam" class="carousel-control-next color" data-slide="next">
+                                            <img src="https://img.icons8.com/ios/50/fa314a/circled-chevron-right.png" />
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+<!--                    </div>
+                </div>-->
+
+
+                            </section>
+
+
+                            <footer th:replace="/fragments/footer :: footer"></footer>
+
+                            <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+                                    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+                            crossorigin="anonymous"></script>
+                            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+                                    integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+                            crossorigin="anonymous"></script>
+
+                            </body>
+
+                            </html>

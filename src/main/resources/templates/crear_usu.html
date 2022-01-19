@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/creUsu.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <title>Registro</title>
+ 
+</head>
+
+<body>
+    <div th:if="${mal != null}" th:text="${mal}" class="alert alert-danger" role="alert">
+    </div>
+    <div class="container ">
+        <form class="row  justify-content-center " th:action="" method="POST" enctype="multipart/form-data"
+            th:object="${usuario}">
+            <div class="form-group col-12 col-md-7 col-sm-7 col-lg-7 col-xl-7 col-xxl-7 text-white">
+                <label>Nombre</label> <input type="text" id="nombre" class="form-control " th:field="*{nombre}">
+            </div>
+            <div class="form-group col-12 col-md-7 col-sm-7 col-lg-7 col-xl-7 col-xxl-7  text-white">
+                <label>Apellido</label> <input type="text" id="apellido" class="form-control  6" th:field="*{apellido}">
+            </div>
+            <div class="form-group col-12 col-md-7 col-sm-7 col-lg-7 col-xl-7 col-xxl-7  text-white">
+                <label>E-mail</label> <input type="text" id="email" class="form-control " th:field="*{email">
+            </div>
+            <div class="form-group col-12 col-md-7 col-sm-7 col-lg-7 col-xl-7 col-xxl-7  text-white">
+                <label>Clave</label> <input type="text" id="clave" class="form-control " th:field="*{clave}">
+            </div>
+            <div class="form-group col-12 col-md-7 col-sm-7 col-lg-7 col-xl-7 col-xxl-7 text-white ">
+                <label>Repita la contraseña</label> <input type="text" id="clave1" class="form-control " name="clave1">
+            </div>
+            <div class="form-group col-12 col-md-7 col-sm-7 col-lg-7 col-xl-7 col-xxl-7  text-white mt-3">
+                    <button class="btn btn-success container-fluid"  type="submit" >CONFIRMAR
+                    </button>
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
