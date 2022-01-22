@@ -1,5 +1,9 @@
 body{
-    background-image: url("../img/log.jpeg");
+  background-image: url("https://th.bing.com/th/id/R.9c21aed59ddf77ea27eced585504d7ce?rik=OjN9PoGmTtUG7Q&riu=http%3a%2f%2fhdwpro.com%2fwp-content%2fuploads%2f2018%2f08%2fFree-Orange-Wallpaper.jpg&ehk=x6MNqBK78Wp5NuEghN%2bek8sFOP2Ct2ry1IOOdpMad%2bM%3d&risl=&pid=ImgRaw&r=0") ;
+  background-position: center center;
+background-size: cover;
+background-attachment: fixed;
+background-color: aqua;
 }
 .login{
     width: 90px;

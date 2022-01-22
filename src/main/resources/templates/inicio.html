@@ -1,210 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="/css/inicio.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-              integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-        <title>Inicio</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/inicio.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <title>Inicio</title>
+</head>
 
-    <body>
-        <nav th:replace="/fragments/nav :: nav"></nav>
-        <section class="container mt-2">
-            <div class="container">
-                <div class="row justify-content-center mt-3">
-                    <div class="col-5">
-                        <p class="tipo">¿QUE DESEA HACER?</p>
-                    </div>
+<body>
+    <nav th:replace="/fragments/nav :: nav"></nav>
+    <section>
+        <div>
+            <!-- <h3 class="bg-success col-md-3 ml-md-auto">Usuario</h3>-->
+            <h2 class="card text-white bg-success col-md-3 ml-md-auto" style="max-width: auto;height:auto;"
+                th:if="${session.usuariosession != null}"
+                th:text="${session.usuariosession.nombre + ' ' + session.usuariosession.apellido}"></h2>
+        </div>
+        <div>
+<!--            <h3 th:text="|Hay ${lista.size} casas publicadas en venta |"> </h3>-->
+                            <div class="col-5 col-sm-3 col-md-3 col-lg-3 col-xl-3 mt-3 ">
+                <a class="nav-link text-white btn btn-primary " th:if="${session.usuariosession != null}" href="/busqueda">Iniciar Búsqueda <span
+                        class="sr-only">(current)</span></a> 
                 </div>
-                <div class="row ml-4">
-                    <div class="col-12 col-sm-3 col-md-4 col-lg-4 col-xl-4  mt-3" >
-                        <a class="btn btn-primary largo"style="font-size: 30px;" href="#">Agregar casa</a>
+        </div>
+           <div class="container ">
+        <div class="row justify-content-center ult mt-5 " th:each="li : ${lista}">
+            <div class="card border border-white mt-2 mb-3 col-12 col-sm-10 col-md-10 col-lg-10 col-xl-10 text-center ult ">
+                <div class="row justify-content-center no-gutters border border-warning ult  mb-5">
+                    <input hidden>
+                    <div class="col-md-5  ult ">
+                        <div th:id="|foto${li.id}" class="carousel slide ult" data-ride="carousel">
+                            <div class="carousel-inner ult">
+                                <div class="carousel-item active">
+                                    <img th:src="${'/foto/vivienda?id=' + li.id + '&num=0'}" class="d-block w-100 image"
+                                        alt="imagen 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img th:src="${'/foto/vivienda?id=' + li.id + '&num=1'}" class="d-block w-100 image"
+                                        alt="imagen 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img th:src="${'/foto/vivienda?id=' + li.id + '&num=2'}" class="d-block w-100 image"
+                                        alt="imagen 3">
+                                </div>
+                                <div class="carousel-item">
+                                    <img th:src="${'/foto/vivienda?id=' + li.id + '&num=3'}" class="d-block w-100 image"
+                                        alt="imagen 4">
+                                </div>
+                                <!-- icono prev y next -->
+                            </div>
+                            <button class="carousel-control-prev" type="button" th:data-target="|#foto${li.id}|"
+                                data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" th:data-target="|#foto${li.id}|"
+                                data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-12 col-sm-3 col-md-4 col-lg-4 col-xl-4 mt-3">
-                        <a class="btn btn-success largo" style="font-size: 30px;"href="#">Modificar casa</a>
-                    </div>
-                    <div class="col-12 col-sm-3 col-md-4 col-lg-4 col-xl-4 mt-3">
-                        <a class="btn btn-danger largo" style="font-size: 30px;" href="#">Eliminar casa</a>
-                    </div>
-                </div>
-            </div>
-                <div class="container">
-                    <div class="row col-sm-12 col-lg-4 ml-3">
-                        <a class="mt-4" href="#">
-                            <p class="text-primary"> Ver todas las casas </p>
-                        </a>
-                    </div>
-                    <div class="row" th:each="li : ${list}">
-                        <div class="col-sm-12">
-                            <div id="inam" class="carousel slide" data-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <div class="container">
-                                            <div class="row ml-5 mr-5 ">
-                                                <div class="col-sm-12 col-lg-4">
-                                                    <div class="card border border-secondary"
-                                                         style="width: 300px;margin: auto;">
-                                                        <img th:src="${'/foto/vivienda?id=' + li.id + '&num=0'}" class="card-img-top">
-                                                        <div class="card-body">
-                                                            <div>
-                                                                <img src="/img/signo-de-dolar.png"
-                                                                     style="height: 30px;width: 30px;" alt="">
-                                                            </div>
-                                                            <div class="row justify-content-around mt-3">
-                                                                <img th:src="@{\img\bathtub.png}"
-                                                                     style="height: 20px;width: 20px;">
-                                                                <p th:text="${li.banio}"></p>
-                                                                <img th:src="@{/img/bedroom.png}"
-                                                                     style="height: 20px;width: 20px;">
-                                                                <p th:text="${li.dormitorio}"></p>
-                                                                <img th:src="@{/img/car-in-garage.png}"
-                                                                     style="height: 20px;width: 20px;">
-                                                                <p th:text="${li.cochera}"></p>
-                                                                <img th:src="@{/img/apertura-de-puerta-abierta.png}"
-                                                                     style="height: 20px;width: 20px;">
-                                                                <p th:text="${li.ambiente}"></p>
-                                                                <img th:src="@{/img/medida-cuadrada.png}"
-                                                                     style="height: 20px;width: 20px;">
-                                                                <p th:text="${li.mt}"></p>
-                                                            </div>
-                                                            <div class="row  mt-2 ml-2">
-                                                                <img th:src="@{/img/ubicacion.png}"
-                                                                     style="height: 20px;width: 20px;">
-                                                                <p th:text="${li.ubicacion}"></p>
-                                                            </div>
-                                                            <div class="card-text">
-                                                                <img th:src="@{/img/llamada-telefonica.png}"
-                                                                     style="height: 25px;width: 30px;">
-                                                                <p></p>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-<!--                                                 <div class="col-sm-12 col-lg-4">
-                                                    <div class="card border border-secondary" style="width: 300px;">
-                                                        <img src="../static/img/CASA22.jpg" class="card-img-top">
-                                                        <div class="card-body">
-                                                            <h4 class="card-title">Why you should use skin masks ?</h4>
-                                                            <p class="card-text">Skin masks help us to make are skin fresh
-                                                                and also they protect our skin from the harm rays of sun</p>
-                                                            <button type="button" class="btn btn-warning">Read More</button>
-    
-                                                        </div>
-    
-                                                    </div>
-    
-                                                </div>
-                                                <div class="col-sm-12 col-lg-4">
-                                                    <div class="card border border-secondary" style="width: 300px;">
-                                                        <img src="../static/img/casa3.jpeg" class="card-img-top">
-                                                        <div class="card-body">
-                                                            <h4 class="card-title">Why you should use skin masks ?</h4>
-                                                            <p class="card-text">Skin masks help us to make are skin fresh
-                                                                and also they protect our skin from the harm rays of sun</p>
-                                                            <button type="button" class="btn btn-warning">Read More</button>
-    
-                                                        </div>
-    
-                                                    </div>
-    
-                                                </div>-->
-    
-                                            </div>
-    
-                                        </div> 
-
-
-                                            </div>
-<!--                                            <div class="carousel-item">
-                                                <div class="container">
-                                                    <div class="row ml-5 mr-5">
-                                                        <div class="col-sm-12 col-lg-4">
-                                                            <div class="card border border-secondary"
-                                                                style="width: 300px;margin: auto;">
-                                                                <img src="../static/img/casa3.jpeg" class="card-img-top">
-                                                                <div class="card-body">
-                                                                    <h4 class="card-title">Why you should use skin masks ?</h4>
-                                                                    <p class="card-text">Skin masks help us to make are skin fresh
-                                                                        and also they protect our skin from the harm rays of sun</p>
-                                                                    <button type="button" class="btn btn-warning">Read More</button>
-            
-                                                                </div>
-            
-                                                            </div>
-            
-                                                        </div>
-                                                        <div class="col-sm-12 col-lg-4">
-                                                            <div class="card border border-secondary" style="width: 300px;">
-                                                                <img src="../static/img/CASA22.jpg" class="card-img-top">
-                                                                <div class="card-body">
-                                                                    <h4 class="card-title">Why you should use skin masks ?</h4>
-                                                                    <p class="card-text">Skin masks help us to make are skin fresh
-                                                                        and also they protect our skin from the harm rays of sun</p>
-                                                                    <button type="button" class="btn btn-warning">Read More</button>
-            
-                                                                </div>
-            
-                                                            </div>
-            
-                                                        </div>
-                                                        <div class="col-sm-12 col-lg-4">
-                                                            <div class="card border border-secondary" style="width: 300px;">
-                                                                <img src="../static/img/casa1.jpeg" class="card-img-top">
-                                                                <div class="card-body">
-                                                                    <h4 class="card-title">Why you should use skin masks ?</h4>
-                                                                    <p class="card-text">Skin masks help us to make are skin fresh
-                                                                        and also they protect our skin from the harm rays of sun</p>
-                                                                    <button type="button" class="btn btn-warning">Read More</button>
-            
-                                                                </div>
-            
-                                                            </div>
-            
-                                                        </div>
-            
-                                                    </div>
-            
-                                                </div>
-            
-            
-                                            </div> -->
-
-                                        </div>
-                                        <a href="#inam" class="carousel-control-prev color " role:"button" data-slide="prev">
-                                           <img src="https://img.icons8.com/ios/50/fa314a/circled-chevron-left.png" />
-                                        </a>
-                                        <a href="#inam" class="carousel-control-next color" data-slide="next">
-                                            <img src="https://img.icons8.com/ios/50/fa314a/circled-chevron-right.png" />
-                                        </a>
-
-                                    </div>
-
+                    <div class="col-md-7 ">
+                        <!-- cuerpo de la carta -->
+                        <div class="card-body">
+                            <div class="row ml-3 justify-content-between">
+                                <p class="num" th:text="|$  ${li.precio}|">5000</p>
+                                <div class="col mt-2">
+                                    <p class="bario" th:text="|Barrio : ${li.barrio}|"></p>
+                                </div>
+                            </div>
+                            <div class="row justify-selfs-evenly  ">
+                                <div class="col">
+                                    <!-- icono baño -->
+                                    <p><img th:src="@{\img\bathtub.png}" class="ancho_alto px-1" th:text="${li.banio}">
+                                    </p>
+                                </div>
+                                <div class="col">
+                                    <!-- icono dormitorio  -->
+                                    <p><img th:src="@{/img/bedroom.png}" class="ancho_alto px-1"
+                                            th:text="${li.dormitorio}"></p>
+                                </div>
+                                <div class="col">
+                                    <!-- icono garage -->
+                                    <p><img th:src="@{/img/car-in-garage.png}" class="ancho_alto px-1"
+                                            th:text="${li.cochera}"></p>
+                                </div>
+                                <div class="col">
+                                    <!-- icono amibien -->
+                                    <p><img th:src="@{/img/apertura-de-puerta-abierta.png}" class="ancho_alto px-1"
+                                            th:text="${li.ambiente}">
+                                    </p>
+                                </div>
+                                <div class="col">
+                                    <!-- icono metro -->
+                                    <p><img th:src="@{/img/medida-cuadrada.png}" class="ancho_alto px-1"
+                                            th:text="${li.mt}"></p>
+                                </div>
+                            </div>
+                            <div class="row  ml-3">
+                                <!-- ubicacion -->
+                                <p><img th:src="@{/img/ubicacion.png}" class="ancho_alto" th:text="${li.ubicacion}"></p>
+                            </div>
+                            <div class="row  ml-2 justify-content-end ">
+                                <!-- inmo -->
+                                <div class="col"><img th:src="${'/foto/inmobiliaria?id=' + li.inmobiliaria.id}"
+                                        class="d-block w-100 ancho_alto_vi"></div>
+                                <!-- telefono -->
+                                <div class="col ">
+                                    
+                                    <p class="nu"><img th:src="@{/img/llamada-telefonica.png}" class="ancho_alto px-1" th:text="${li.usuario.telefono}" >
+                                    </p>
                                 </div>
 
                             </div>
                         </div>
-<!--                    </div>
-                </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+    
+
+    </section>
 
 
-                            </section>
+    <footer th:replace="/fragments/footer :: footer"></footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+        crossorigin="anonymous"></script>
 
-                            <footer th:replace="/fragments/footer :: footer"></footer>
+</body>
 
-                            <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-                                    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-                            crossorigin="anonymous"></script>
-                            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
-                                    integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
-                            crossorigin="anonymous"></script>
-
-                            </body>
-
-                            </html>
+</html>

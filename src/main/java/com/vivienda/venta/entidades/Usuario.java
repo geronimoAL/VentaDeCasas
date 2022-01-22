@@ -1,7 +1,10 @@
 
 package com.vivienda.venta.entidades;
 
+import com.vivienda.venta.enums.Rol;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import org.hibernate.annotations.GenericGenerator;
@@ -17,8 +20,28 @@ public class Usuario {
     private String apellido;
     private String telefono;
     private String clave;
+    private String correo;
     private Boolean estado;
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
 
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
+
+    
     public Boolean getEstado() {
         return estado;
     }
@@ -67,6 +90,11 @@ public class Usuario {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", clave=" + clave + ", estado=" + estado + '}';
     }
 
 

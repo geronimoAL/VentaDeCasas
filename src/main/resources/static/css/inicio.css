@@ -6,3 +6,48 @@
 .largo{
     width: 250px;
 }
+.mo{
+    
+}
+.ancho_alto{
+    height: 30px;
+    width: 30px;
+}
+.ancho_alto_vi{
+    height: 80px;
+    width: 200px;
+}
+.num{
+    font-size: 35px;
+    font-weight: bold;
+}
+.al{
+    align-self: center;
+}
+.nu{
+    font-size:25px;
+    font-weight: bold;
+}
+.ult{
+   border-style: 0px;
+   padding-left: 0px;
+   margin-left: 0px;
+
+}
+.image{
+    width: 400px;
+    height: 290px;
+}
+.bario{
+    font-size: 20px;
+}
+.card{
+    height: 240px; 
+    width: 400px;
+}
+.tipo{
+    font-family: Arial;
+}
+.tam{
+    height: 300px;
+}

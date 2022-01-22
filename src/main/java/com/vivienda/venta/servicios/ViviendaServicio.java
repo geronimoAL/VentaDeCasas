@@ -3,6 +3,7 @@ package com.vivienda.venta.servicios;
 import com.vivienda.venta.entidades.Foto;
 import com.vivienda.venta.entidades.Inmobiliaria;
 import com.vivienda.venta.entidades.Provincia;
+import com.vivienda.venta.entidades.Usuario;
 import com.vivienda.venta.entidades.Vivienda;
 import com.vivienda.venta.errores.ErrorServicio;
 import com.vivienda.venta.repositorio.FotoRepository;
@@ -28,10 +29,12 @@ public class ViviendaServicio {
     public FotoServicio fotoservicio;
     @Autowired
     public ProvinciaServicio provinciaservicio;
+    @Autowired
+    public UsuarioServicio usuarioservicio;
 //creacion de la vivienda
 
     @Transactional
-    public void crear(Vivienda vivienda, MultipartFile foto, MultipartFile foto1, MultipartFile foto2, MultipartFile foto3) throws ErrorServicio {
+    public void crear(Vivienda vivienda, MultipartFile foto, MultipartFile foto1, MultipartFile foto2, MultipartFile foto3,String idUsu) throws ErrorServicio {
         validaciones(vivienda.getUbicacion(), vivienda.getBarrio(), vivienda.getPrecio(), vivienda.getBanio(), vivienda.getDormitorio(), vivienda.getMt(), foto,foto1,foto2,foto3);
         Vivienda vivi = new Vivienda();
         vivi.setUbicacion(vivienda.getUbicacion());
@@ -44,6 +47,8 @@ public class ViviendaServicio {
         vivi.setBanio(vivienda.getBanio());
         vivi.setInmobiliaria(vivienda.getInmobiliaria());
         vivi.setProvincia(vivienda.getProvincia());
+        Usuario usuario=usuarioservicio.buscarID(idUsu);
+        vivi.setUsuario(usuario);
         List<Foto> fo = new ArrayList();
         Foto fot = fotoservicio.guardar(foto);
         Foto fot1 = fotoservicio.guardar(foto1);
@@ -94,6 +99,15 @@ public class ViviendaServicio {
         return lista;
 
     }
+     //buscar la lista de viviendas x usuario
+
+    @Transactional(readOnly = true)
+    public List<Vivienda> ListaDeViviendasXUsuario(String id) {
+        List<Vivienda> lista = viviendarepository.casasXUsuario(id);
+        return lista;
+
+    }
+    
 //buscar x id de la vivienda
 
     @Transactional(readOnly = true)
@@ -108,9 +122,15 @@ public class ViviendaServicio {
 //eliminar vivienda
 
     @Transactional
-    public void eliminar(Vivienda vivienda) {
-        Vivienda vivi = viviendarepository.findById(vivienda.getId()).get();
+    public void eliminar(String id) {
+        Vivienda vivi = viviendarepository.findById(id).get();
         viviendarepository.delete(vivi);
+    }
+    //filtrado
+    @Transactional(readOnly = true)
+     public List<Vivienda> filtrado(String precio,String banio,String cochera, String dormitorio, String mt, String ambiente,String barrio,String ubicacion,String provincia,String inmobiliaria) {
+        List<Vivienda> lista = viviendarepository.filtrado(precio, banio, cochera, dormitorio, mt, ambiente, barrio, ubicacion, provincia, inmobiliaria);
+        return lista;
     }
 //buscar x precio mayor que manda x parametro
 

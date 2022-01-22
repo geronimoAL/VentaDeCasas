@@ -13,6 +13,7 @@
         </div>
         <div class='container '>
                 <form   class="mt-2 " th:action="@{/vivienda/__${accion}__}" method="POST" enctype="multipart/form-data" th:object="${vivienda}" >
+                    <input th:value="${usuario.id}" name="usuario" hidden>
                     <div class="row justify-content-center">
                         <h1 th:text="${accion == 'creacion' ? 'Ingrese los datos de la casa' : 'Actualizar casa'}" Class="tipo text-white"></h1>
                     </div>
@@ -73,8 +74,6 @@
                     <div class="form-group col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 letra" >
                         <label>Foto 2</label> <input type="file"   class="form-control border border-secondary" name="archivo1" />
                     </div>
-<!--                </div>-->
-                    <!--<div class="form-row">-->
                     <div class="form-group col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 letra" >
                         <label>Foto 3</label> <input type="file" class="form-control border border-secondary" name="archivo2" />
                     </div>

@@ -43,74 +43,58 @@
         .navb {
             height: 70px;
         }
-        li a.active, li a:hover{
-            background: blue;
+        a.active, li a:hover{
+            color: blue !important;
         }
-    </style>
 
+    </style>
+    <div th:if="${session.usuariosession == null}">
     <a href="/" class="navbar-brand letra text-white">
         <img src="/img/vector-home-buildings-logo-and-symbols-icons.jpg" alt="Imagen de inicio" loading="lazy"
              class="navbar-brand__img">
         CASAPRO
     </a>
+    </div>
+     <div th:if="${session.usuariosession != null}">
+    <a href="/inicio" class="navbar-brand letra text-white">
+        <img src="/img/vector-home-buildings-logo-and-symbols-icons.jpg" alt="Imagen de inicio" loading="lazy"
+             class="navbar-brand__img">
+        CASAPRO
+    </a>
+    </div>
     <button class="navbar-toggler bg-dark" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto ">
-            <li class="nav-item">
-                <a class="nav-link text-white letra" th:href="@{/vivienda/crear}">Guardar</a>
+             <li class="nav-item active letra">
+                <a class="nav-link text-white  " th:if="${session.usuariosession == null}" href="/busqueda">Iniciar Búsqueda <span
+                        class="sr-only">(current)</span></a>         
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white letra" th:href="@{/vivienda/lista}">Lista</a>
+                <a class="nav-link text-white letra" th:if="${session.usuariosession != null}" th:href="@{/vivienda/crear/{id} (id=${session.usuariosession.id})}">Publicar casa</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white letra" th:href="@{/vivienda/lista_modificar}">Modificar</a>
+                <a class="nav-link text-white letra lin" th:if="${session.usuariosession != null}" th:href="@{/vivienda/listaUsuario/{id} (id=${session.usuariosession.id})}">Mis publicaciones</a>
             </li>
+<!--            <li class="nav-item">
+                <a class="nav-link text-white letra " th:if="${session.usuariosession != null}" th:href="@{/vivienda/lista_modificar}">Modificar</a>
+            </li>-->
             <li class="nav-item">
-                <a class="nav-link text-white letra" th:href="@{/inmobiliaria/crear}">Ingresar inmobiliaria</a>
+                <a class="nav-link text-white letra" th:if="${session.usuariosession != null}" th:href="@{/inmobiliaria/crear}">Ingresar inmobiliaria</a>
             </li>
-            <li class="nav-item dropdown letra">
-                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                   data-toggle="dropdown" aria-expanded="false">
-                    Ubicacion
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown letra">
-                <a class="nav-link dropdown-toggle text-white " href="#" id="navbarDropdown" role="button"
-                   data-toggle="dropdown" aria-expanded="false">
-                    Tipo de propiedad
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-
-            <li class="nav-item dropdown letra">
-                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                   data-toggle="dropdown" aria-expanded="false">
-                    Ambiente
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
+            <li class="nav-item active letra">                                        
+                <a class="nav-link text-white btn btn-success boton" th:if="${session.usuariosession == null}" href="/login">INICIAR SESION <span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active letra">
-                <a class="nav-link text-white btn btn-success boton" href="#">INICIAR SESION <span
-                        class="sr-only">(current)</span></a>
+                <a class="nav-link text-white  boton" th:if="${session.usuariosession != null}" th:href="@{/usuario/modificar/{id}(id=${session.usuariosession.id})}">Editar perfil<span
+                        class="sr-only">(current)</span></a>                                                                       
+            </li>
+            <li class="nav-item active letra">
+                <a class="nav-link text-white btn btn-danger boton" th:if="${session.usuariosession != null}" href="/logout">Cerrar Sesión <span
+                        class="sr-only">(current)</span></a>         
             </li>
         </ul>
 

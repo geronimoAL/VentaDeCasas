@@ -25,13 +25,24 @@ public class Vivienda {
     private String ambiente;
     private String ubicacion;
     private String barrio;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<Foto>foto;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Inmobiliaria inmobiliaria;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Provincia provincia;
+    @OneToOne
+    private Usuario usuario;
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
+    
     public Provincia getProvincia() {
         return provincia;
     }
