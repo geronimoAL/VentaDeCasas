@@ -1,7 +1,7 @@
 
-package com.vivienda.venta.repositorio;
+package com.vivienda.venta.repository;
 
-import com.vivienda.venta.entidades.Vivienda;
+import com.vivienda.venta.domain.Vivienda;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

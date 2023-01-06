@@ -1,14 +1,11 @@
-package com.vivienda.venta.servicios;
+package com.vivienda.venta.service;
 
-import com.vivienda.venta.entidades.Foto;
-import com.vivienda.venta.entidades.Inmobiliaria;
-import com.vivienda.venta.entidades.Provincia;
-import com.vivienda.venta.entidades.Usuario;
-import com.vivienda.venta.entidades.Vivienda;
-import com.vivienda.venta.errores.ErrorServicio;
-import com.vivienda.venta.repositorio.FotoRepository;
-import com.vivienda.venta.repositorio.InmobiliariaRepository;
-import com.vivienda.venta.repositorio.ViviendaRepository;
+import com.vivienda.venta.domain.Foto;
+import com.vivienda.venta.domain.Usuario;
+import com.vivienda.venta.domain.Vivienda;
+import com.vivienda.venta.errors.ErrorServicio;
+import com.vivienda.venta.repository.InmobiliariaRepository;
+import com.vivienda.venta.repository.ViviendaRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-@Service
-public class ViviendaServicio {
 
-    @Autowired
+@Service
+public class ViviendaServicioImpl implements ViviendaServicio{
+  @Autowired
     public ViviendaRepository viviendarepository;
 
     @Autowired
@@ -28,9 +25,7 @@ public class ViviendaServicio {
     @Autowired
     public FotoServicio fotoservicio;
     @Autowired
-    public ProvinciaServicio provinciaservicio;
-    @Autowired
-    public UsuarioServicio usuarioservicio;
+    public UsuarioServicioImpl usuarioServicioImpl;
 //creacion de la vivienda
 
     @Transactional
@@ -47,7 +42,7 @@ public class ViviendaServicio {
         vivi.setBanio(vivienda.getBanio());
         vivi.setInmobiliaria(vivienda.getInmobiliaria());
         vivi.setProvincia(vivienda.getProvincia());
-        Usuario usuario=usuarioservicio.buscarID(idUsu);
+        Usuario usuario=usuarioServicioImpl.buscarID(idUsu);
         vivi.setUsuario(usuario);
         List<Foto> fo = new ArrayList();
         Foto fot = fotoservicio.guardar(foto);
@@ -195,4 +190,6 @@ public class ViviendaServicio {
             throw new ErrorServicio("Debe ingresar SI O SI fotos");
         }
     }
+
+    
 }

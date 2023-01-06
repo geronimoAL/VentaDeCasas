@@ -1,5 +1,5 @@
 
-package com.vivienda.venta.errores;
+package com.vivienda.venta.errors;
 
 
 public class ErrorServicio extends Exception {

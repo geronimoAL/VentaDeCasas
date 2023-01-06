@@ -1,11 +1,11 @@
 
-package com.vivienda.venta.servicios;
+package com.vivienda.venta.service;
 
-import com.vivienda.venta.entidades.Foto;
-import com.vivienda.venta.entidades.Vivienda;
-import com.vivienda.venta.errores.ErrorServicio;
-import com.vivienda.venta.repositorio.FotoRepository;
-import com.vivienda.venta.repositorio.ViviendaRepository;
+import com.vivienda.venta.domain.Foto;
+import com.vivienda.venta.domain.Vivienda;
+import com.vivienda.venta.errors.ErrorServicio;
+import com.vivienda.venta.repository.FotoRepository;
+import com.vivienda.venta.repository.ViviendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

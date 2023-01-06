@@ -1,5 +1,5 @@
 
-package com.vivienda.venta.configuracion;
+package com.vivienda.venta.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

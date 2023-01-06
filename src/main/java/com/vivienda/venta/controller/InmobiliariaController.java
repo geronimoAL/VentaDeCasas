@@ -1,8 +1,8 @@
-package com.vivienda.venta.controlador;
+package com.vivienda.venta.controller;
 
-import com.vivienda.venta.entidades.Inmobiliaria;
-import com.vivienda.venta.errores.ErrorServicio;
-import com.vivienda.venta.servicios.InmobiliariaServicio;
+import com.vivienda.venta.domain.Inmobiliaria;
+import com.vivienda.venta.errors.ErrorServicio;
+import com.vivienda.venta.service.InmobiliariaServicioImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class InmobiliariaController {
 
     @Autowired
-    private InmobiliariaServicio inmobiliariaservicio;
+    private InmobiliariaServicioImpl inmobiliariaServicioImpl;
 
     @GetMapping("/crear")
     public String crear(ModelMap modelo) {
@@ -33,7 +33,7 @@ public class InmobiliariaController {
     public String creacion(ModelMap modelo, @ModelAttribute Inmobiliaria inmo, MultipartFile archivo) {
         Inmobiliaria inmob = new Inmobiliaria();
         try {
-            inmobiliariaservicio.crear(inmo, archivo);
+            inmobiliariaServicioImpl.crear(inmo, archivo);
             return "redirect:/";
         } catch (ErrorServicio e) {
             modelo.put("inmo", inmob);
@@ -45,7 +45,7 @@ public class InmobiliariaController {
 
     @GetMapping("/modificar/{id}")
     public String modificacion(@PathVariable String id, ModelMap modelo) {
-        Inmobiliaria inmo = inmobiliariaservicio.buscarXID(id);
+        Inmobiliaria inmo = inmobiliariaServicioImpl.buscarXID(id);
         modelo.put("usuario", inmo);
         modelo.put("accion", "modificat");
         return "crear_inmo";
@@ -53,9 +53,9 @@ public class InmobiliariaController {
 
     @PostMapping("/modificacion")
     public String modificar(ModelMap modelo, @RequestParam String id,@RequestParam String nombre, MultipartFile foto) {
-        Inmobiliaria inmo = inmobiliariaservicio.buscarXID(id);
+        Inmobiliaria inmo = inmobiliariaServicioImpl.buscarXID(id);
         try {
-           inmobiliariaservicio.modificacion(id, nombre, foto);
+           inmobiliariaServicioImpl.modificacion(id, nombre, foto);
           return "redirect:/usuario/inicio.html";
         } catch (ErrorServicio e) {
             modelo.put("mal", e.getMessage());
