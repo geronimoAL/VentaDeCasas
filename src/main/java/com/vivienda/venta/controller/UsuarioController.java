@@ -1,8 +1,12 @@
-package com.vivienda.venta.controlador;
+package com.vivienda.venta.controller;
 
-import com.vivienda.venta.entidades.Usuario;
-import com.vivienda.venta.errores.ErrorServicio;
-import com.vivienda.venta.servicios.UsuarioServicio;
+import com.vivienda.venta.domain.Usuario;
+import com.vivienda.venta.domain.Vivienda;
+import com.vivienda.venta.errors.ErrorServicio;
+import com.vivienda.venta.service.UsuarioServicioImpl;
+import com.vivienda.venta.service.ViviendaServicioImpl;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -15,32 +19,43 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
+
 
 @Controller
 @RequestMapping("/usuario")
 public class UsuarioController {
 
     @Autowired
-    private UsuarioServicio usuarioservicio;
+    private ViviendaServicioImpl viviendaServicioImpl;
+    @Autowired
+    private UsuarioServicioImpl usuarioServicioImpl;
 
     @GetMapping("/crear")
-    public String crear(ModelMap modelo) {
+    public String crear(ModelMap modelo, HttpServletRequest request) {
         Usuario usuario = new Usuario();
+        Map<String, ?> map = RequestContextUtils.getInputFlashMap(request);
+        if (map != null) {
+            modelo.put("mal", map.get("message"));
+        }
         modelo.put("usuario", usuario);
         modelo.put("accion", "creacion");
         return "crear_usu.html";
     }
 
     @PostMapping("/creacion")
-    public String creacion(ModelMap modelo, @ModelAttribute Usuario usuario, String clave1, HttpServletRequest request) throws ServletException {
+    public String creacion(ModelMap modelo, RedirectAttributes redirectAttributes, @ModelAttribute Usuario usuario, String clave1, HttpServletRequest request) throws ServletException {
         Usuario usu = new Usuario();
         try {
-            usuarioservicio.crear(usuario, clave1);
+            usuarioServicioImpl.crear(usuario, clave1);
+            List<Vivienda> lista = viviendaServicioImpl.ListaDeViviendas();
             request.login(usuario.getCorreo(), usuario.getClave());
+            modelo.put("lista", lista);
             return "inicio.html";
         } catch (ErrorServicio e) {
             modelo.put("usuario", usu);
-            modelo.put("mal", e.getMessage());
+            redirectAttributes.addFlashAttribute("message" , e.getMessage());
             return "redirect:/usuario/crear";
         }
 
@@ -48,11 +63,11 @@ public class UsuarioController {
 
     @GetMapping("/modificar/{id}")
     public String modificacion(HttpSession session, @PathVariable String id, ModelMap modelo) throws ErrorServicio {
-         Usuario login = (Usuario) session.getAttribute("usuariosession");
+        Usuario login = (Usuario) session.getAttribute("usuariosession");
         if (login == null || !login.getId().equals(id)) {
             return "redirect:/inicio";
         }
-        Usuario usu = usuarioservicio.buscarID(id);
+        Usuario usu = usuarioServicioImpl.buscarID(id);
         modelo.addAttribute("usuario", usu);
         modelo.put("accion", "modificacion");
         return "crear_usu";
@@ -60,13 +75,13 @@ public class UsuarioController {
 
     @PostMapping("/modificacion")
     public String modificar(HttpSession session, ModelMap modelo, @ModelAttribute Usuario usuario, @RequestParam String clave1) throws ErrorServicio {
-        Usuario usu = usuarioservicio.buscarID(usuario.getId());
+        Usuario usu = usuarioServicioImpl.buscarID(usuario.getId());
         try {
             Usuario login = (Usuario) session.getAttribute("usuariosession");
             if (login == null || !login.getId().equals(usuario.getId())) {
                 return "redirect:/inicio";
             }
-            usuarioservicio.modificar(usuario, clave1);
+            usuarioServicioImpl.modificar(usuario, clave1);
             session.setAttribute("usuariosession", usu);
             return "inicio.html";
         } catch (ErrorServicio e) {

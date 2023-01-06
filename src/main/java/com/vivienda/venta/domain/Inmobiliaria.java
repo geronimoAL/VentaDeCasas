@@ -1,5 +1,5 @@
 
-package com.vivienda.venta.entidades;
+package com.vivienda.venta.domain;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;

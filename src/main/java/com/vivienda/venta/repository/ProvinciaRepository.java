@@ -1,7 +1,7 @@
 
-package com.vivienda.venta.repositorio;
+package com.vivienda.venta.repository;
 
-import com.vivienda.venta.entidades.Provincia;
+import com.vivienda.venta.domain.Provincia;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

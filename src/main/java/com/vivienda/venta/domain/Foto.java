@@ -1,5 +1,5 @@
 
-package com.vivienda.venta.entidades;
+package com.vivienda.venta.domain;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;

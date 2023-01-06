@@ -1,4 +1,4 @@
-package com.vivienda.venta.entidades;
+package com.vivienda.venta.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

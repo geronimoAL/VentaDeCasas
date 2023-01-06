@@ -1,5 +1,5 @@
 
-package com.vivienda.venta.entidades;
+package com.vivienda.venta.domain;
 
 import com.vivienda.venta.enums.Rol;
 import javax.persistence.Entity;

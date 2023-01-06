@@ -1,17 +1,22 @@
-package com.vivienda.venta.servicios;
+package com.vivienda.venta.service;
 
-import com.vivienda.venta.entidades.Foto;
-import com.vivienda.venta.entidades.Inmobiliaria;
-import com.vivienda.venta.errores.ErrorServicio;
-import com.vivienda.venta.repositorio.InmobiliariaRepository;
+import com.vivienda.venta.domain.Foto;
+import com.vivienda.venta.domain.Inmobiliaria;
+import com.vivienda.venta.errors.ErrorServicio;
+import com.vivienda.venta.repository.InmobiliariaRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 @Service
-public class InmobiliariaServicio {
+public class InmobiliariaServicioImpl implements InmobiliariaServicio {
 
     @Autowired
     public InmobiliariaRepository inmobiliariarepositorio;
@@ -40,6 +45,7 @@ public class InmobiliariaServicio {
         inmo.setFoto(fot);
         inmo.setEstado(true);
         inmobiliariarepositorio.save(inmo);
+
     }
 
     //eliminar inmobiliaria
@@ -49,6 +55,7 @@ public class InmobiliariaServicio {
         if (inmo != null) {
             inmobiliariarepositorio.delete(inmo);
         } else {
+            log.error("El id {} no se encontró para eliminar",id);
             throw new ErrorServicio("No se pudo encontrar la inmobiliaria que querias eliminar");
         }
 
@@ -62,6 +69,7 @@ public class InmobiliariaServicio {
             inmo.setEstado(false);
             inmobiliariarepositorio.save(inmo);
         } else {
+            log.error("El id {} no se encontró para deshabilitar",id);
             throw new ErrorServicio("No se encontro la inmobiliaria que querias desabilitar");
         }
     }
@@ -74,7 +82,9 @@ public class InmobiliariaServicio {
             inmo.setEstado(true);
             inmobiliariarepositorio.save(inmo);
         } else {
-            throw new ErrorServicio("No se encontro la inmobiliaria que querias desabilitar");
+            log.error("El id {} no se encontró para Habilitar",id);
+            throw new ErrorServicio("No se encontro la inmobiliaria que querias habilitar");
+         
         }
     }
 
@@ -88,14 +98,18 @@ public class InmobiliariaServicio {
     @Transactional(readOnly = true)
     public List<Inmobiliaria> listaDeInmobiliarias() {
         List<Inmobiliaria> lista = inmobiliariarepositorio.lista();
+        if (lista.isEmpty()){
+            log.info("No hay inmobiliarias en la base de datos");
+        }
         return lista;
     }
-
+    
     public void validacion(String nombre, MultipartFile foto) throws ErrorServicio {
         if (nombre.isEmpty() || nombre == null) {
             throw new ErrorServicio("Se olvidó de introducir el nombre de su inmobiliaria");
         }
         if (foto.isEmpty() || foto == null) {
+            log.error("Hay foto de la inmobiliaria {} vacia",nombre);
             throw new ErrorServicio("Debe cargar una foto si o si");
         }
 

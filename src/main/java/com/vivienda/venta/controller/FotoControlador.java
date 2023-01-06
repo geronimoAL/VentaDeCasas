@@ -1,11 +1,11 @@
 
-package com.vivienda.venta.controlador;
+package com.vivienda.venta.controller;
 
-import com.vivienda.venta.entidades.Inmobiliaria;
-import com.vivienda.venta.entidades.Vivienda;
-import com.vivienda.venta.errores.ErrorServicio;
-import com.vivienda.venta.servicios.InmobiliariaServicio;
-import com.vivienda.venta.servicios.ViviendaServicio;
+import com.vivienda.venta.domain.Inmobiliaria;
+import com.vivienda.venta.domain.Vivienda;
+import com.vivienda.venta.errors.ErrorServicio;
+import com.vivienda.venta.service.InmobiliariaServicioImpl;
+import com.vivienda.venta.service.ViviendaServicioImpl;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class FotoControlador {
     
     @Autowired
-    public ViviendaServicio viviendaservicio;
+    public ViviendaServicioImpl viviendaServicioImpl;
     @Autowired
-    public InmobiliariaServicio inmobiliariaservicio;
+    public InmobiliariaServicioImpl inmobiliariaServicioImpl;
     
     @GetMapping("/vivienda")
     public ResponseEntity<byte[]>fotoequipo(@RequestParam String id,@RequestParam Integer num) {
         try {
-            Vivienda vivienda=viviendaservicio.BuscarXId(id);
+            Vivienda vivienda=viviendaServicioImpl.BuscarXId(id);
             if (vivienda.getFoto() ==null) {
                 throw new ErrorServicio("No tiene una foto asignada");
             }
@@ -45,7 +45,7 @@ public class FotoControlador {
     }
     @GetMapping("/inmobiliaria")
     public ResponseEntity<byte[]>fotoinmobiliaria(@RequestParam String id) throws ErrorServicio{
-       Inmobiliaria inmo=inmobiliariaservicio.buscarXID(id);
+       Inmobiliaria inmo=inmobiliariaServicioImpl.buscarXID(id);
         if (inmo.getFoto() == null) {
             throw new ErrorServicio("La inmobiliaria no tiene foto asignada");
         }

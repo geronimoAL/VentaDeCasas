@@ -1,18 +1,17 @@
-package com.vivienda.venta.controlador;
+package com.vivienda.venta.controller;
 
-import com.vivienda.venta.entidades.Inmobiliaria;
-import com.vivienda.venta.entidades.Provincia;
-import com.vivienda.venta.entidades.Usuario;
-import com.vivienda.venta.entidades.Vivienda;
-import com.vivienda.venta.errores.ErrorServicio;
-import com.vivienda.venta.servicios.InmobiliariaServicio;
-import com.vivienda.venta.servicios.ProvinciaServicio;
-import com.vivienda.venta.servicios.UsuarioServicio;
-import com.vivienda.venta.servicios.ViviendaServicio;
+import com.vivienda.venta.domain.Inmobiliaria;
+import com.vivienda.venta.domain.Provincia;
+import com.vivienda.venta.domain.Usuario;
+import com.vivienda.venta.domain.Vivienda;
+import com.vivienda.venta.errors.ErrorServicio;
+import com.vivienda.venta.service.InmobiliariaServicioImpl;
+import com.vivienda.venta.service.ProvinciaServicioImpl;
+import com.vivienda.venta.service.UsuarioServicioImpl;
+import com.vivienda.venta.service.ViviendaServicioImpl;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -32,20 +31,20 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 public class ViviendaController {
 
     @Autowired
-    private ViviendaServicio viviendaservicio;
+    private ViviendaServicioImpl viviendaServicioImpl;
     @Autowired
-    private ProvinciaServicio provinciaservicio;
+    private ProvinciaServicioImpl provinciaServicioImpl;
     @Autowired
-    private InmobiliariaServicio inmobiliariaservicio;
+    private InmobiliariaServicioImpl inmobiliariaServicioImpl;
     @Autowired
-    private UsuarioServicio usuarioservicio;
+    private UsuarioServicioImpl usuarioServicioImpl;
 
     @GetMapping("/crear/{id}")
     public String crear(ModelMap modelo,@PathVariable String id) throws ErrorServicio {
         Vivienda vivienda = new Vivienda();
-        List<Provincia> lista = provinciaservicio.lista();
-        List<Inmobiliaria> inmobiliaria = inmobiliariaservicio.listaDeInmobiliarias();
-        Usuario usuario =usuarioservicio.buscarID(id);
+        List<Provincia> lista = provinciaServicioImpl.lista();
+        List<Inmobiliaria> inmobiliaria = inmobiliariaServicioImpl.listaDeInmobiliarias();
+        Usuario usuario =usuarioServicioImpl.buscarID(id);
         modelo.put("usuario",usuario);
         modelo.put("inmobiliarias", inmobiliaria);
         modelo.put("vivienda", vivienda);
@@ -58,11 +57,11 @@ public class ViviendaController {
     public String creacion(@ModelAttribute Vivienda vivienda, MultipartFile archivo, MultipartFile archivo1, MultipartFile archivo2, MultipartFile archivo3,@RequestParam String usuario, ModelMap modelo) {
         Vivienda vivi = new Vivienda();
         try {
-            viviendaservicio.crear(vivienda, archivo, archivo1, archivo2, archivo3,usuario);
+            viviendaServicioImpl.crear(vivienda, archivo, archivo1, archivo2, archivo3,usuario);
             return "redirect:/inicio";
         } catch (ErrorServicio e) {
-            List<Provincia> lista = provinciaservicio.lista();
-            List<Inmobiliaria> inmobi = inmobiliariaservicio.listaDeInmobiliarias();
+            List<Provincia> lista = provinciaServicioImpl.lista();
+            List<Inmobiliaria> inmobi = inmobiliariaServicioImpl.listaDeInmobiliarias();
             modelo.put("inmobi", inmobi);
             modelo.put("list", lista);
             modelo.put("vivienda", vivi);
@@ -75,9 +74,9 @@ public class ViviendaController {
 
     @GetMapping("/modificar/{id}")
     public String modificacion(@PathVariable String id, ModelMap modelo) throws ErrorServicio {
-        Vivienda vivi = viviendaservicio.BuscarXId(id);
-        List<Provincia> lista = provinciaservicio.lista();
-        List<Inmobiliaria> inmobiliaria = inmobiliariaservicio.listaDeInmobiliarias();
+        Vivienda vivi = viviendaServicioImpl.BuscarXId(id);
+        List<Provincia> lista = provinciaServicioImpl.lista();
+        List<Inmobiliaria> inmobiliaria = inmobiliariaServicioImpl.listaDeInmobiliarias();
         modelo.put("inmobiliarias", inmobiliaria);
         modelo.put("list", lista);
         modelo.put("vivienda", vivi);
@@ -87,14 +86,14 @@ public class ViviendaController {
 
     @PostMapping("/modificacion")
     public String modificar(ModelMap modelo, @ModelAttribute Vivienda vivienda, MultipartFile archivo, MultipartFile archivo1, MultipartFile archivo2, MultipartFile archivo3) throws ErrorServicio {
-        Vivienda vivi = viviendaservicio.BuscarXId(vivienda.getId());
+        Vivienda vivi = viviendaServicioImpl.BuscarXId(vivienda.getId());
         try {
-            viviendaservicio.modificar(vivienda, archivo, archivo1, archivo2, archivo3);
+            viviendaServicioImpl.modificar(vivienda, archivo, archivo1, archivo2, archivo3);
 //            return "inicio.html";
             return "redirect:/inicio";
         } catch (ErrorServicio e) {
-            List<Provincia> lista = provinciaservicio.lista();
-            List<Inmobiliaria> inmobiliaria = inmobiliariaservicio.listaDeInmobiliarias();
+            List<Provincia> lista = provinciaServicioImpl.lista();
+            List<Inmobiliaria> inmobiliaria = inmobiliariaServicioImpl.listaDeInmobiliarias();
             modelo.put("inmobiliarias", inmobiliaria);
             modelo.put("list", lista);
             modelo.put("mal", e.getMessage());
@@ -105,14 +104,14 @@ public class ViviendaController {
     
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable String id){
-        viviendaservicio.eliminar(id);
+        viviendaServicioImpl.eliminar(id);
         return "redirect:/vivienda/lista_modificar";
     }
     //lista x usuario
     @GetMapping("/listaUsuario/{id}")
     public String lista(ModelMap modelo,@PathVariable String id) throws ErrorServicio {
-        List<Vivienda> lista = viviendaservicio.ListaDeViviendasXUsuario(id);
-        Usuario usu=usuarioservicio.buscarID(id);
+        List<Vivienda> lista = viviendaServicioImpl.ListaDeViviendasXUsuario(id);
+        Usuario usu=usuarioServicioImpl.buscarID(id);
         modelo.put("usuario",usu);
         modelo.put("lista", lista);
         modelo.put("lista_total","listaUsuario");
@@ -127,7 +126,7 @@ public class ViviendaController {
         if(map!= null){
             mav.addObject("accion", map.get("accion"));
         }
-        List<Vivienda> lista = viviendaservicio.ListaDeViviendas();
+        List<Vivienda> lista = viviendaServicioImpl.ListaDeViviendas();
         modelo.put("lista", lista);
         modelo.put("lista_total","listaDefinitiva");
 //        modelo.put("accion", "filtrado");
