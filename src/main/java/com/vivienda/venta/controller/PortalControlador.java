@@ -3,9 +3,9 @@ package com.vivienda.venta.controller;
 import com.vivienda.venta.domain.Inmobiliaria;
 import com.vivienda.venta.domain.Provincia;
 import com.vivienda.venta.domain.Vivienda;
-import com.vivienda.venta.service.InmobiliariaServicioImpl;
-import com.vivienda.venta.service.ProvinciaServicioImpl;
-import com.vivienda.venta.service.ViviendaServicioImpl;
+import com.vivienda.venta.service.impl.InmobiliariaServicioImpl;
+import com.vivienda.venta.service.impl.ProvinciaServicioImpl;
+import com.vivienda.venta.service.impl.ViviendaServicioImpl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,7 +56,7 @@ public class PortalControlador {
         return "busqueda.html";
     }
     @GetMapping("filtrar")
-    public String filtrado(ModelMap modelo,@RequestParam(required = false) String precio,@RequestParam(required = false) String banio,@RequestParam(required = false) String cochera,@RequestParam(required = false) String dormitorio,@RequestParam(required = false) String mt, @RequestParam(required = false) String ambiente,@RequestParam(required = false) String barrio, @RequestParam(required = false) String ubicacion,@RequestParam String provincia,@RequestParam String inmobiliaria){
+    public String filtrado(ModelMap modelo,@RequestParam(required = false) long precio,@RequestParam(required = false) long banio,@RequestParam(required = false) long cochera,@RequestParam(required = false) long dormitorio,@RequestParam(required = false) long mt, @RequestParam(required = false) long ambiente,@RequestParam(required = false) String barrio, @RequestParam(required = false) String ubicacion,@RequestParam String provincia,@RequestParam String inmobiliaria){
         List<Vivienda>lista=viviendaServicioImpl.filtrado(precio,banio,cochera,dormitorio,mt,ambiente,barrio,ubicacion,provincia,inmobiliaria);
         modelo.put("lista_total","filtrado");
         modelo.put("accion", "filtrado");

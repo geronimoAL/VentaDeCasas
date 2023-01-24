@@ -3,14 +3,15 @@ package com.vivienda.venta.controller;
 import com.vivienda.venta.domain.Usuario;
 import com.vivienda.venta.domain.Vivienda;
 import com.vivienda.venta.errors.ErrorServicio;
-import com.vivienda.venta.service.UsuarioServicioImpl;
-import com.vivienda.venta.service.ViviendaServicioImpl;
+import com.vivienda.venta.service.impl.UsuarioServicioImpl;
+import com.vivienda.venta.service.impl.ViviendaServicioImpl;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,7 @@ public class UsuarioController {
     @Autowired
     private ViviendaServicioImpl viviendaServicioImpl;
     @Autowired
-    private UsuarioServicioImpl usuarioServicioImpl;
+    private UsuarioServicioImpl usServicioImpl;
 
     @GetMapping("/crear")
     public String crear(ModelMap modelo, HttpServletRequest request) {
@@ -48,7 +49,7 @@ public class UsuarioController {
     public String creacion(ModelMap modelo, RedirectAttributes redirectAttributes, @ModelAttribute Usuario usuario, String clave1, HttpServletRequest request) throws ServletException {
         Usuario usu = new Usuario();
         try {
-            usuarioServicioImpl.crear(usuario, clave1);
+            usServicioImpl.crear(usuario, clave1);
             List<Vivienda> lista = viviendaServicioImpl.ListaDeViviendas();
             request.login(usuario.getCorreo(), usuario.getClave());
             modelo.put("lista", lista);
@@ -67,7 +68,7 @@ public class UsuarioController {
         if (login == null || !login.getId().equals(id)) {
             return "redirect:/inicio";
         }
-        Usuario usu = usuarioServicioImpl.buscarID(id);
+        Usuario usu = usServicioImpl.buscarID(id);
         modelo.addAttribute("usuario", usu);
         modelo.put("accion", "modificacion");
         return "crear_usu";
@@ -75,14 +76,16 @@ public class UsuarioController {
 
     @PostMapping("/modificacion")
     public String modificar(HttpSession session, ModelMap modelo, @ModelAttribute Usuario usuario, @RequestParam String clave1) throws ErrorServicio {
-        Usuario usu = usuarioServicioImpl.buscarID(usuario.getId());
+        Usuario usu = usServicioImpl.buscarID(usuario.getId());
         try {
             Usuario login = (Usuario) session.getAttribute("usuariosession");
             if (login == null || !login.getId().equals(usuario.getId())) {
                 return "redirect:/inicio";
             }
-            usuarioServicioImpl.modificar(usuario, clave1);
+            List<Vivienda> lista = viviendaServicioImpl.ListaDeViviendas();
+            usServicioImpl.modificar(usuario, clave1);
             session.setAttribute("usuariosession", usu);
+            modelo.put("lista", lista);
             return "inicio.html";
         } catch (ErrorServicio e) {
             modelo.put("mal", e.getMessage());

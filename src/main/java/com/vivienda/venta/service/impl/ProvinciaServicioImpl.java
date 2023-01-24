@@ -1,7 +1,8 @@
-package com.vivienda.venta.service;
+package com.vivienda.venta.service.impl;
 
 import com.vivienda.venta.domain.Provincia;
 import com.vivienda.venta.repository.ProvinciaRepository;
+import com.vivienda.venta.service.ProvinciaServicio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

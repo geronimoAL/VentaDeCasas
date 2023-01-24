@@ -17,12 +17,12 @@ public class Vivienda {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid",strategy = "uuid")
     private String id;
-    private String precio;
-    private String banio;
-    private String dormitorio;
-    private String mt;
-    private String cochera;
-    private String ambiente;
+    private long precio;
+    private long banio;
+    private long dormitorio;
+    private long mt;
+    private long cochera;
+    private long ambiente;
     private String ubicacion;
     private String barrio;
     @OneToMany
@@ -77,52 +77,52 @@ public class Vivienda {
         this.id = id;
     }
 
-    public String getPrecio() {
+    public long getPrecio() {
         return precio;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(long precio) {
         this.precio = precio;
     }
 
-    public String getBanio() {
+    public long getBanio() {
         return banio;
     }
 
-    public void setBanio(String banio) {
+    public void setBanio(long banio) {
         this.banio = banio;
     }
 
   
-    public String getDormitorio() {
+    public long getDormitorio() {
         return dormitorio;
     }
 
-    public void setDormitorio(String dormitorio) {
+    public void setDormitorio(long dormitorio) {
         this.dormitorio = dormitorio;
     }
 
-    public String getMt() {
+    public long getMt() {
         return mt;
     }
 
-    public void setMt(String mt) {
+    public void setMt(long mt) {
         this.mt = mt;
     }
 
-    public String getCochera() {
+    public long getCochera() {
         return cochera;
     }
 
-    public void setCochera(String cochera) {
+    public void setCochera(long cochera) {
         this.cochera = cochera;
     }
 
-    public String getAmbiente() {
+    public long getAmbiente() {
         return ambiente;
     }
 
-    public void setAmbiente(String ambiente) {
+    public void setAmbiente(long ambiente) {
         this.ambiente = ambiente;
     }
 

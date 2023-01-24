@@ -1,12 +1,15 @@
-package com.vivienda.venta.service;
+package com.vivienda.venta.service.impl;
 
 import com.vivienda.venta.domain.Usuario;
 import com.vivienda.venta.enums.Rol;
 import com.vivienda.venta.errors.ErrorServicio;
 import com.vivienda.venta.repository.UsuarioRepository;
+import com.vivienda.venta.service.EmailService;
+import com.vivienda.venta.service.UsuarioServicio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +26,13 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Slf4j
-@Service
+@Service()
 public class UsuarioServicioImpl implements UsuarioServicio, UserDetailsService {
 
     @Autowired
     public UsuarioRepository usuariorepositorio;
+    @Autowired
+    public EmailService emailService;
 
     //creacion del usuario
     @Transactional
@@ -42,8 +47,12 @@ public class UsuarioServicioImpl implements UsuarioServicio, UserDetailsService 
         String encriptada = new BCryptPasswordEncoder().encode(usuario.getClave());
         usu.setClave(encriptada);
         usu.setEstado(true);
+        try {
+            emailService.enviar(usuario.getCorreo(), usuario.getNombre());
+        } catch (MessagingException ex) {
+            log.error("Error al enviar email al usuario ");
+        }
         usuariorepositorio.save(usu);
-
     }
 
     //modificacion del usuario
@@ -76,7 +85,7 @@ public class UsuarioServicioImpl implements UsuarioServicio, UserDetailsService 
     }
     //buscar el usuario x su id
 
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
     public Usuario buscarID(String id) throws ErrorServicio {
         Optional<Usuario> respuesta = usuariorepositorio.findById(id);
         if (respuesta.isPresent()) {

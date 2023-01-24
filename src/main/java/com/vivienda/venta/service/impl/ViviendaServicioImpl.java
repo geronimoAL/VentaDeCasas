@@ -1,4 +1,4 @@
-package com.vivienda.venta.service;
+package com.vivienda.venta.service.impl;
 
 import com.vivienda.venta.domain.Foto;
 import com.vivienda.venta.domain.Usuario;
@@ -6,6 +6,8 @@ import com.vivienda.venta.domain.Vivienda;
 import com.vivienda.venta.errors.ErrorServicio;
 import com.vivienda.venta.repository.InmobiliariaRepository;
 import com.vivienda.venta.repository.ViviendaRepository;
+import com.vivienda.venta.service.FotoServicio;
+import com.vivienda.venta.service.ViviendaServicio;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +27,12 @@ public class ViviendaServicioImpl implements ViviendaServicio{
     @Autowired
     public FotoServicio fotoservicio;
     @Autowired
-    public UsuarioServicioImpl usuarioServicioImpl;
+    public UsuarioServicioImpl usuServicioImpl;
 //creacion de la vivienda
 
     @Transactional
     public void crear(Vivienda vivienda, MultipartFile foto, MultipartFile foto1, MultipartFile foto2, MultipartFile foto3,String idUsu) throws ErrorServicio {
-        validaciones(vivienda.getUbicacion(), vivienda.getBarrio(), vivienda.getPrecio(), vivienda.getBanio(), vivienda.getDormitorio(), vivienda.getMt(), foto,foto1,foto2,foto3);
+        validaciones(vivienda.getUbicacion(), vivienda.getBarrio(),vivienda.getBanio(), vivienda.getDormitorio(), vivienda.getMt(), foto,foto1,foto2,foto3);
         Vivienda vivi = new Vivienda();
         vivi.setUbicacion(vivienda.getUbicacion());
         vivi.setBarrio(vivienda.getBarrio());
@@ -42,7 +44,7 @@ public class ViviendaServicioImpl implements ViviendaServicio{
         vivi.setBanio(vivienda.getBanio());
         vivi.setInmobiliaria(vivienda.getInmobiliaria());
         vivi.setProvincia(vivienda.getProvincia());
-        Usuario usuario=usuarioServicioImpl.buscarID(idUsu);
+        Usuario usuario=usuServicioImpl.buscarID(idUsu);
         vivi.setUsuario(usuario);
         List<Foto> fo = new ArrayList();
         Foto fot = fotoservicio.guardar(foto);
@@ -62,7 +64,7 @@ public class ViviendaServicioImpl implements ViviendaServicio{
     @Transactional
     public void modificar(Vivienda vivienda, MultipartFile foto, MultipartFile foto1, MultipartFile foto2, MultipartFile foto3) throws ErrorServicio {
         Vivienda vivi = viviendarepository.findById(vivienda.getId()).get();
-        validaciones(vivienda.getUbicacion(), vivienda.getBarrio(), vivienda.getPrecio(), vivienda.getBanio(), vivienda.getDormitorio(), vivienda.getMt(), foto,foto1,foto2,foto3);
+        validaciones(vivienda.getUbicacion(), vivienda.getBarrio(), vivienda.getBanio(), vivienda.getDormitorio(), vivienda.getMt(), foto,foto1,foto2,foto3);
         vivi.setUbicacion(vivienda.getUbicacion());
         vivi.setBarrio(vivienda.getBarrio());
         vivi.setAmbiente(vivienda.getAmbiente());
@@ -123,21 +125,21 @@ public class ViviendaServicioImpl implements ViviendaServicio{
     }
     //filtrado
     @Transactional(readOnly = true)
-     public List<Vivienda> filtrado(String precio,String banio,String cochera, String dormitorio, String mt, String ambiente,String barrio,String ubicacion,String provincia,String inmobiliaria) {
+     public List<Vivienda> filtrado(long precio,long banio,long cochera, long dormitorio, long mt, long ambiente,String barrio,String ubicacion,String provincia,String inmobiliaria) {
         List<Vivienda> lista = viviendarepository.filtrado(precio, banio, cochera, dormitorio, mt, ambiente, barrio, ubicacion, provincia, inmobiliaria);
         return lista;
     }
 //buscar x precio mayor que manda x parametro
 
     @Transactional(readOnly = true)
-    public List<Vivienda> busquedaPrecioMayor(String precio) {
+    public List<Vivienda> busquedaPrecioMayor(long precio) {
         List<Vivienda> lista = viviendarepository.casasxPrecioMayorA(precio);
         return lista;
     }
 
     //buscar x precio menor que manda x parametro
     @Transactional(readOnly = true)
-    public List<Vivienda> busquedaPrecioMenor(String precio) {
+    public List<Vivienda> busquedaPrecioMenor(long precio) {
         List<Vivienda> lista = viviendarepository.casasxPrecioMenorA(precio);
         return lista;
     }
@@ -157,20 +159,21 @@ public class ViviendaServicioImpl implements ViviendaServicio{
     }
     //metdodo para que no lleguen vacios, nulo o error de tipeo 
 
-    public void validaciones(String ubicacion, String barrio, String precio, String banio, String dormitorios, String mt, MultipartFile foto, MultipartFile foto1, MultipartFile foto2, MultipartFile foto3) throws ErrorServicio {
+    
+    public void validaciones(String ubicacion, String barrio, long banio, long dormitorios, long mt, MultipartFile foto, MultipartFile foto1, MultipartFile foto2, MultipartFile foto3) throws ErrorServicio {
 
-        if (precio.isEmpty() || precio == null) {
-            throw new ErrorServicio("No puso ningun precio");
-        }
-        if (banio.isEmpty() || banio == null) {
-            throw new ErrorServicio("No puede ingresar que no tiene baño ");
-        }
-        if (dormitorios.isEmpty() || dormitorios == null) {
-            throw new ErrorServicio("No puede ingresar que no tiene dormitorio ");
-        }
-        if (mt.isEmpty() || mt == null) {
-            throw new ErrorServicio("No puede dejar el espacio en blanco en m²");
-        }
+//        if (precio.isEmpty() || precio == null) {
+//            throw new ErrorServicio("No puso ningun precio");
+//        }
+//        if (banio.isEmpty() || banio == null) {
+//            throw new ErrorServicio("No puede ingresar que no tiene baño ");
+//        }
+//        if (dormitorios.isEmpty() || dormitorios == null) {
+//            throw new ErrorServicio("No puede ingresar que no tiene dormitorio ");
+//        }
+//        if (mt.isEmpty() || mt == null) {
+//            throw new ErrorServicio("No puede dejar el espacio en blanco en m²");
+//        }
         if (ubicacion.isEmpty() || ubicacion == null) {
             throw new ErrorServicio("Debe ingresar una ubicacion");
         }

@@ -5,14 +5,15 @@ import com.vivienda.venta.domain.Provincia;
 import com.vivienda.venta.domain.Usuario;
 import com.vivienda.venta.domain.Vivienda;
 import com.vivienda.venta.errors.ErrorServicio;
-import com.vivienda.venta.service.InmobiliariaServicioImpl;
-import com.vivienda.venta.service.ProvinciaServicioImpl;
-import com.vivienda.venta.service.UsuarioServicioImpl;
-import com.vivienda.venta.service.ViviendaServicioImpl;
+import com.vivienda.venta.service.impl.InmobiliariaServicioImpl;
+import com.vivienda.venta.service.impl.ProvinciaServicioImpl;
+import com.vivienda.venta.service.impl.UsuarioServicioImpl;
+import com.vivienda.venta.service.impl.ViviendaServicioImpl;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,14 +38,14 @@ public class ViviendaController {
     @Autowired
     private InmobiliariaServicioImpl inmobiliariaServicioImpl;
     @Autowired
-    private UsuarioServicioImpl usuarioServicioImpl;
+    private UsuarioServicioImpl usuarServicioImpl;
 
     @GetMapping("/crear/{id}")
     public String crear(ModelMap modelo,@PathVariable String id) throws ErrorServicio {
         Vivienda vivienda = new Vivienda();
         List<Provincia> lista = provinciaServicioImpl.lista();
         List<Inmobiliaria> inmobiliaria = inmobiliariaServicioImpl.listaDeInmobiliarias();
-        Usuario usuario =usuarioServicioImpl.buscarID(id);
+        Usuario usuario =usuarServicioImpl.buscarID(id);
         modelo.put("usuario",usuario);
         modelo.put("inmobiliarias", inmobiliaria);
         modelo.put("vivienda", vivienda);
@@ -111,7 +112,7 @@ public class ViviendaController {
     @GetMapping("/listaUsuario/{id}")
     public String lista(ModelMap modelo,@PathVariable String id) throws ErrorServicio {
         List<Vivienda> lista = viviendaServicioImpl.ListaDeViviendasXUsuario(id);
-        Usuario usu=usuarioServicioImpl.buscarID(id);
+        Usuario usu=usuarServicioImpl.buscarID(id);
         modelo.put("usuario",usu);
         modelo.put("lista", lista);
         modelo.put("lista_total","listaUsuario");

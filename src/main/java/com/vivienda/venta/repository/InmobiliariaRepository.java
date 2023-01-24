@@ -20,5 +20,7 @@ public interface InmobiliariaRepository extends JpaRepository<Inmobiliaria,Strin
     @Query("SELECT F FROM Inmobiliaria F WHERE F.id = :id")
     public Inmobiliaria inmobiliariaID(@Param("id")String id);
     
+  
+    
     
 }

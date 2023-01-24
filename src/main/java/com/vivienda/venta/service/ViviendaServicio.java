@@ -20,16 +20,16 @@ public interface ViviendaServicio {
 
     public void eliminar(String id);
 
-    public List<Vivienda> filtrado(String precio, String banio, String cochera, String dormitorio, String mt, String ambiente, String barrio, String ubicacion, String provincia, String inmobiliaria);
+    public List<Vivienda> filtrado(long precio, long banio, long cochera, long dormitorio, long mt, long ambiente, String barrio, String ubicacion, String provincia, String inmobiliaria);
 
-    public List<Vivienda> busquedaPrecioMayor(String precio);
+    public List<Vivienda> busquedaPrecioMayor(long precio);
 
-    public List<Vivienda> busquedaPrecioMenor(String precio);
+    public List<Vivienda> busquedaPrecioMenor(long precio);
 
     public List<Vivienda> busquedaPorInmobiliaria(String inmobiliaria);
 
     public List<Vivienda> busquedaPorProvincia(String provincia);
 
-    public void validaciones(String ubicacion, String barrio, String precio, String banio, String dormitorios, String mt, MultipartFile foto, MultipartFile foto1, MultipartFile foto2, MultipartFile foto3) throws ErrorServicio;
+    public void validaciones(String ubicacion, String barrio, long banio, long dormitorios, long mt, MultipartFile foto, MultipartFile foto1, MultipartFile foto2, MultipartFile foto3) throws ErrorServicio;
 
 }

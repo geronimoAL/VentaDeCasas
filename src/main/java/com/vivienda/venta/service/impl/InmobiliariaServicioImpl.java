@@ -1,9 +1,11 @@
-package com.vivienda.venta.service;
+package com.vivienda.venta.service.impl;
 
 import com.vivienda.venta.domain.Foto;
 import com.vivienda.venta.domain.Inmobiliaria;
 import com.vivienda.venta.errors.ErrorServicio;
 import com.vivienda.venta.repository.InmobiliariaRepository;
+import com.vivienda.venta.service.FotoServicio;
+import com.vivienda.venta.service.InmobiliariaServicio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

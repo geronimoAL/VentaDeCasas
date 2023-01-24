@@ -2,9 +2,10 @@ package com.vivienda.venta.service;
 
 import com.vivienda.venta.domain.Usuario;
 import com.vivienda.venta.errors.ErrorServicio;
+import org.springframework.stereotype.Service;
 
 
-
+@Service
 public interface UsuarioServicio {
     public void crear(Usuario usuario, String clave) throws ErrorServicio;
 

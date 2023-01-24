@@ -28,7 +28,7 @@
                 </div>
         </div>
            <div class="container ">
-        <div class="row justify-content-center ult mt-5 " th:each="li : ${lista}">
+              <div th:if="${lista.size>0}" class="row justify-content-center ult mt-5 " th:each="li : ${lista}">
             <div class="card border border-white mt-2 mb-3 col-12 col-sm-10 col-md-10 col-lg-10 col-xl-10 text-center ult ">
                 <div class="row justify-content-center no-gutters border border-warning ult  mb-5">
                     <input hidden>
@@ -124,6 +124,10 @@
             </div>
         </div>
   
+               <div th:if="${lista.size==0}">
+                   <img th:src="@{/img/triste.png}" class="img-fluid" alt="sin publicaciones">
+                   
+               </div>
     
 
     </section>

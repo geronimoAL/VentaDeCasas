@@ -2,7 +2,7 @@ package com.vivienda.venta.controller;
 
 import com.vivienda.venta.domain.Inmobiliaria;
 import com.vivienda.venta.errors.ErrorServicio;
-import com.vivienda.venta.service.InmobiliariaServicioImpl;
+import com.vivienda.venta.service.impl.InmobiliariaServicioImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
