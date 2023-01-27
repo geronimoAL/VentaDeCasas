@@ -29,7 +29,9 @@ public interface ViviendaServicio {
     public List<Vivienda> busquedaPorInmobiliaria(String inmobiliaria);
 
     public List<Vivienda> busquedaPorProvincia(String provincia);
-
-    public void validaciones(String ubicacion, String barrio, long banio, long dormitorios, long mt, MultipartFile foto, MultipartFile foto1, MultipartFile foto2, MultipartFile foto3) throws ErrorServicio;
+    
+    public void validacionNumeros(Long cochera,Long ambiente,Long precio, Long banio, Long dormitorios, Long mt);
+    
+    public void validaciones(String ubicacion, String barrio, Long cochera,Long ambiente,Long precio, Long banio, Long dormitorios, Long mt, MultipartFile foto, MultipartFile foto1, MultipartFile foto2, MultipartFile foto3) throws ErrorServicio;
 
 }

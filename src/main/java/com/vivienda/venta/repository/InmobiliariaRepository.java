@@ -17,9 +17,9 @@ public interface InmobiliariaRepository extends JpaRepository<Inmobiliaria,Strin
     @Query("SELECT F FROM Inmobiliaria F")
     public List<Inmobiliaria>lista();
     
-    @Query("SELECT F FROM Inmobiliaria F WHERE F.id = :id")
-    public Inmobiliaria inmobiliariaID(@Param("id")String id);
     
+    @Query("SELECT F FROM Inmobiliaria F WHERE F.nombre = :nombre")
+    public Inmobiliaria nombreInmobiliaria(@Param("nombre")String nombre);
   
     
     

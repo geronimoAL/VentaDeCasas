@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 //import javax.validation.Valid;
 
@@ -41,34 +42,38 @@ public class ViviendaController {
     private UsuarioServicioImpl usuarServicioImpl;
 
     @GetMapping("/crear/{id}")
-    public String crear(ModelMap modelo,@PathVariable String id) throws ErrorServicio {
+    public ModelAndView crear(ModelMap modelo, @PathVariable String id) throws ErrorServicio {
         Vivienda vivienda = new Vivienda();
         List<Provincia> lista = provinciaServicioImpl.lista();
         List<Inmobiliaria> inmobiliaria = inmobiliariaServicioImpl.listaDeInmobiliarias();
-        Usuario usuario =usuarServicioImpl.buscarID(id);
-        modelo.put("usuario",usuario);
+        Usuario usuario = usuarServicioImpl.buscarID(id);
+        modelo.put("usuario", usuario);
         modelo.put("inmobiliarias", inmobiliaria);
         modelo.put("vivienda", vivienda);
         modelo.put("list", lista);
         modelo.put("accion", "creacion");
-        return "crear_vivienda.html";
+        ModelAndView mav = new ModelAndView("crear_vivienda.html");
+        return mav;
     }
 
     @PostMapping("/creacion")
-    public String creacion(@ModelAttribute Vivienda vivienda, MultipartFile archivo, MultipartFile archivo1, MultipartFile archivo2, MultipartFile archivo3,@RequestParam String usuario, ModelMap modelo) {
+    public String creacion(RedirectAttributes redirectAttributes, @ModelAttribute Vivienda vivienda, MultipartFile archivo, MultipartFile archivo1, MultipartFile archivo2, MultipartFile archivo3, @RequestParam String usuario, ModelMap modelo) {
         Vivienda vivi = new Vivienda();
         try {
-            viviendaServicioImpl.crear(vivienda, archivo, archivo1, archivo2, archivo3,usuario);
+            viviendaServicioImpl.crear(vivienda, archivo, archivo1, archivo2, archivo3, usuario);
             return "redirect:/inicio";
         } catch (ErrorServicio e) {
             List<Provincia> lista = provinciaServicioImpl.lista();
             List<Inmobiliaria> inmobi = inmobiliariaServicioImpl.listaDeInmobiliarias();
-            modelo.put("inmobi", inmobi);
+            modelo.put("inmobiliarias", inmobi);
             modelo.put("list", lista);
             modelo.put("vivienda", vivi);
-            modelo.put("mal", e.getMessage());
+            redirectAttributes.addFlashAttribute("mal", e.getMessage());
+            System.err.println("mensaje error " + e.getMessage());
             modelo.put("accion", "creacion");
-            return "redirect:/inmobiliaria/crear";
+            Usuario usuarioBuscado = usuarServicioImpl.buscarID(usuario);
+            modelo.put("usuario", usuarioBuscado);
+            return "redirect:/vivienda/crear/" + usuarioBuscado.getId();
         }
 
     }
@@ -78,62 +83,65 @@ public class ViviendaController {
         Vivienda vivi = viviendaServicioImpl.BuscarXId(id);
         List<Provincia> lista = provinciaServicioImpl.lista();
         List<Inmobiliaria> inmobiliaria = inmobiliariaServicioImpl.listaDeInmobiliarias();
+        Usuario usuario=usuarServicioImpl.buscarID(vivi.getUsuario().getId());
         modelo.put("inmobiliarias", inmobiliaria);
         modelo.put("list", lista);
         modelo.put("vivienda", vivi);
         modelo.put("accion", "modificacion");
+        modelo.put("usuario",usuario);
         return "crear_vivienda.html";
     }
 
     @PostMapping("/modificacion")
-    public String modificar(ModelMap modelo, @ModelAttribute Vivienda vivienda, MultipartFile archivo, MultipartFile archivo1, MultipartFile archivo2, MultipartFile archivo3) throws ErrorServicio {
+    public String modificar(RedirectAttributes redirectAttributes, ModelMap modelo, @ModelAttribute Vivienda vivienda, MultipartFile archivo, MultipartFile archivo1, MultipartFile archivo2, MultipartFile archivo3) throws ErrorServicio {
         Vivienda vivi = viviendaServicioImpl.BuscarXId(vivienda.getId());
         try {
             viviendaServicioImpl.modificar(vivienda, archivo, archivo1, archivo2, archivo3);
-//            return "inicio.html";
             return "redirect:/inicio";
         } catch (ErrorServicio e) {
             List<Provincia> lista = provinciaServicioImpl.lista();
             List<Inmobiliaria> inmobiliaria = inmobiliariaServicioImpl.listaDeInmobiliarias();
-            modelo.put("inmobiliarias", inmobiliaria);
-            modelo.put("list", lista);
-            modelo.put("mal", e.getMessage());
-            modelo.put("vivienda", vivi);
-            return "redirect:/inmobiliaria/" + vivi.getId();
+            redirectAttributes.addFlashAttribute("mal", e.getMessage());
+            return "redirect:/vivienda/modificar/" + vivi.getId();
         }
     }
-    
+
     @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable String id){
+    public String eliminar(@PathVariable String id) {
         viviendaServicioImpl.eliminar(id);
         return "redirect:/vivienda/lista_modificar";
     }
+
     //lista x usuario
     @GetMapping("/listaUsuario/{id}")
-    public String lista(ModelMap modelo,@PathVariable String id) throws ErrorServicio {
+    public String lista(ModelMap modelo, @PathVariable String id) throws ErrorServicio {
         List<Vivienda> lista = viviendaServicioImpl.ListaDeViviendasXUsuario(id);
-        Usuario usu=usuarServicioImpl.buscarID(id);
-        modelo.put("usuario",usu);
+        Usuario usu = usuarServicioImpl.buscarID(id);
+        modelo.put("usuario", usu);
         modelo.put("lista", lista);
-        modelo.put("lista_total","listaUsuario");
+        modelo.put("lista_total", "listaUsuario");
         modelo.put("accion", "modificacion");
         return "list_vivienda.html";
     }
+
     //lista total
     @GetMapping("/lista")
-    public ModelAndView lista(ModelMap modelo,HttpServletRequest request) {
-        ModelAndView mav=new ModelAndView("list_vivienda.html");
-        Map<String,?>map=RequestContextUtils.getInputFlashMap(request);
-        if(map!= null){
+    public ModelAndView lista(ModelMap modelo, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("list_vivienda.html");
+        Map<String, ?> map = RequestContextUtils.getInputFlashMap(request);
+        if (map != null) {
             mav.addObject("accion", map.get("accion"));
         }
         List<Vivienda> lista = viviendaServicioImpl.ListaDeViviendas();
         modelo.put("lista", lista);
-        modelo.put("lista_total","listaDefinitiva");
+        modelo.put("lista_total", "listaDefinitiva");
 //        modelo.put("accion", "filtrado");
         return mav;
     }
-/*
+    
+    
+    
+    /*
      @GetMapping("/")
     public ModelAndView index(HttpServletRequest request){
     ModelAndView mav=new ModelAndView("index.html");
@@ -146,10 +154,8 @@ public class ViviendaController {
     return mav;
    }
     
-    */
-    
-    
-    
+     */
+
 //    @GetMapping("/lista_modificar")
 //    public String listaM(ModelMap modelo) {
 //        List<Vivienda> lista = viviendaservicio.ListaDeViviendas();
@@ -158,5 +164,4 @@ public class ViviendaController {
 //        modelo.put("accion", "modificacion");
 //        return "list_vivienda.html";
 //    }
-
 }

@@ -29,11 +29,12 @@ public class InmobiliariaServicioImpl implements InmobiliariaServicio {
     @Transactional
     public void crear(Inmobiliaria inmo, MultipartFile foto) throws ErrorServicio {
         validacion(inmo.getNombre(), foto);
-        Inmobiliaria inmob = new Inmobiliaria();
-        inmob.setNombre(inmo.getNombre());
         Foto fot = fotoservicio.guardar(foto);
-        inmob.setFoto(fot);
-        inmob.setEstado(true);
+        Inmobiliaria inmob = Inmobiliaria.builder()
+                .nombre(inmo.getNombre())
+                .foto(fot)
+                .estado(true)
+                .build();
         inmobiliariarepositorio.save(inmob);
     }
 
@@ -53,9 +54,9 @@ public class InmobiliariaServicioImpl implements InmobiliariaServicio {
     //eliminar inmobiliaria
     @Transactional
     public void eliminar(String id) throws ErrorServicio {
-        Inmobiliaria inmo = inmobiliariarepositorio.findById(id).get();
-        if (inmo != null) {
-            inmobiliariarepositorio.delete(inmo);
+//        Inmobiliaria inmo = inmobiliariarepositorio.findById(id).get();
+        if (id != null) {
+            inmobiliariarepositorio.deleteById(id);
         } else {
             log.error("El id {} no se encontró para eliminar",id);
             throw new ErrorServicio("No se pudo encontrar la inmobiliaria que querias eliminar");

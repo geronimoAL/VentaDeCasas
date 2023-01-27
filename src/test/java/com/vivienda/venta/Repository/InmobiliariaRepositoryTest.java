@@ -5,7 +5,6 @@
  */
 package com.vivienda.venta.Repository;
 
-
 import com.vivienda.venta.domain.Inmobiliaria;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,20 +21,21 @@ import org.junit.jupiter.api.Assertions;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
 public class InmobiliariaRepositoryTest {
-    
+
     @Autowired
     private InmobiliariaRepository inmobiliariaRepository;
-    
+
     @DisplayName("Test para buscar una inmobiliaria")
     @Test
-    void testBuscarPorId(){
-        Inmobiliaria inmobiliaria=new Inmobiliaria();
-        inmobiliaria.setEstado(true);
-        inmobiliaria.setNombre("REMAX");
+    void testBuscarPorId() {
+        Inmobiliaria inmobiliaria = Inmobiliaria.builder()
+                .estado(true)
+                .nombre("REMAX")
+                .build();
         inmobiliariaRepository.save(inmobiliaria);
-        
-        Inmobiliaria inmobiliariaEncontrada = inmobiliariaRepository.inmobiliariaID(inmobiliaria.getId());
 
-         Assertions.assertNotNull(inmobiliariaEncontrada);
+        Inmobiliaria inmobiliariaEncontrada = inmobiliariaRepository.findById(inmobiliaria.getId()).get();
+
+        Assertions.assertNotNull(inmobiliariaEncontrada);
     }
 }

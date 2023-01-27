@@ -44,8 +44,8 @@ public class UsuarioServicioImpl implements UsuarioServicio, UserDetailsService 
         usu.setTelefono(usuario.getTelefono());
         usu.setCorreo(usuario.getCorreo());
         usu.setRol(Rol.USUARIO);
-        String encriptada = new BCryptPasswordEncoder().encode(usuario.getClave());
-        usu.setClave(encriptada);
+        String claveEcriptada = new BCryptPasswordEncoder().encode(usuario.getClave());
+        usu.setClave(claveEcriptada);
         usu.setEstado(true);
         try {
             emailService.enviar(usuario.getCorreo(), usuario.getNombre());
@@ -58,16 +58,17 @@ public class UsuarioServicioImpl implements UsuarioServicio, UserDetailsService 
     //modificacion del usuario
     @Transactional
     public void modificar(Usuario usuario, String clave) throws ErrorServicio {
-        Usuario usu = usuariorepositorio.findById(usuario.getId()).get();
-        if (usu != null) {
+        Usuario usuarioBuscado = usuariorepositorio.findById(usuario.getId()).get();
+        if (usuarioBuscado != null) {
             validaciones(usuario.getNombre(), usuario.getApellido(), usuario.getTelefono(), usuario.getClave(), clave);
-            usu.setNombre(usuario.getNombre());
-            usu.setApellido(usuario.getApellido());
-            usu.setTelefono(usuario.getTelefono());
-            usu.setCorreo(usuario.getCorreo());
-            usu.setEstado(true);
-            usu.setClave(usuario.getClave());
-            usuariorepositorio.save(usu);
+            usuarioBuscado.setNombre(usuario.getNombre());
+            usuarioBuscado.setApellido(usuario.getApellido());
+            usuarioBuscado.setTelefono(usuario.getTelefono());
+            usuarioBuscado.setCorreo(usuario.getCorreo());
+            usuarioBuscado.setEstado(true);
+            String claveEcriptada = new BCryptPasswordEncoder().encode(usuario.getClave());
+            usuarioBuscado.setClave(claveEcriptada);
+            usuariorepositorio.save(usuarioBuscado);
 //
         } else {
             log.error("No se encontro el id {} oara modificar", usuario.getId());
@@ -106,7 +107,7 @@ public class UsuarioServicioImpl implements UsuarioServicio, UserDetailsService 
         }
         if (apellido.isEmpty() || apellido == null) {
             log.error("Error!! Campo apellido en blanco o nulo");
-            throw new ErrorServicio("Debe ingresar un nombre");
+            throw new ErrorServicio("Debe ingresar un apellido");
         }
         if (telefono.isEmpty() || telefono == null) {
             log.error("Error!! Campo teléfono en blanco o nulo");
@@ -121,6 +122,20 @@ public class UsuarioServicioImpl implements UsuarioServicio, UserDetailsService 
             throw new ErrorServicio("Las claves deben ser iguales");
         }
 
+    }
+
+    public void validacionClaves(String clave, String clave2) {
+        if (!clave.equals(clave2)) {
+            throw new ErrorServicio("Las claves que ingresaste no coinciden"); 
+        }
+    }
+
+    public String validacionNombre(String nombre) {
+        if (nombre.isEmpty() || nombre == null) {
+//            log.error("Error!! Campo nombre en blanco o nulo");
+            throw new ErrorServicio("Debe ingresar un nombre");
+        }
+        return "hola";
     }
 
     @Override
