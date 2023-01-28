@@ -28,69 +28,69 @@ import org.junit.jupiter.api.Test;
 @SpringBootTest
 public class ViviendaRepositoryTest {
 
-    @Autowired
-    private ViviendaRepository viviendaRepository;
-    
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    
-    @Autowired
-    private InmobiliariaRepository inmobiliariaRepository;
+   @Autowired
+   private ViviendaRepository viviendaRepository;
+   
+   @Autowired
+   private UsuarioRepository usuarioRepository;
+   
+   @Autowired
+   private InmobiliariaRepository inmobiliariaRepository;
 
-    @DisplayName("Test buscar viviendas por provincia")
-    @Test
-    void testBuscarPorProvincia(){
-        //given
-        String nombreProvinca="Mendoza";
-        //when
-        List<Vivienda> nombreViviendasPorProvincia = viviendaRepository.casasXProvincia(nombreProvinca);
-        //then
-        Assertions.assertEquals(4, nombreViviendasPorProvincia.size());
-    }
-    @DisplayName("Test buscar viviendas por usuario")
-    @Test
-    void testBuscarPorUsuario(){
-        //given
-        Usuario usuarioBuscado=usuarioRepository.buscarXMail("geronimo@gmail");
-        //when
-        List<Vivienda> nombreViviendasPorProvincia = viviendaRepository.casasXUsuario(usuarioBuscado.getId());
-        //then
-        Assertions.assertEquals(3, nombreViviendasPorProvincia.size());
-    }
-    
-    @DisplayName("Test buscar viviendas por precio mayor pasado por parámetro")
-    @Test
-    void testBuscarPorPrecioMayor(){
-        //given
-        long precio=3000;
-        //when
-        List<Vivienda> viviendasConPrecioMayorPorParametro = viviendaRepository.casasxPrecioMayorA(precio);
-        //then
-        Assertions.assertEquals(2, viviendasConPrecioMayorPorParametro.size());
-    }
-    @DisplayName("Test buscar viviendas por inmobiliaria")
-    @Test
-    void testBuscarPorInmobiliaria(){
-        //given
-        String nombreInmobiliaria="Stevanato";
-        //when
-        List<Vivienda>viviendasConInmobiliariaBuscada = viviendaRepository.listaCasasInmobiliaria(nombreInmobiliaria);
-        //then
-        Assertions.assertEquals(4, viviendasConInmobiliariaBuscada.size());
-    }
-    @DisplayName("Test buscar viviendas por filtrado")
-    @Test
-    void testBuscarPorFiltrado() {
-        //given
-        String nombreInmobiliaria = "Stevanato";
-        String nombreProvincia = "Mendoza";
-        String nombreUbicacion = "Godoy Cruz";
-        String nombreBarrio = "Malcaya";
-        //when
-        List<Vivienda> viviendasConInmobiliariaBuscada = viviendaRepository.filtrado(6000, 2, 3, 6, 200, 4, nombreBarrio, nombreUbicacion, nombreProvincia, nombreInmobiliaria);
-        //then
-        Assertions.assertEquals(3, viviendasConInmobiliariaBuscada.size());
-        
-    }
-    
+   @DisplayName("Test buscar viviendas por provincia")
+   @Test
+   void testBuscarPorProvincia(){
+       //given
+       String nombreProvinca="Mendoza";
+       //when
+       List<Vivienda> nombreViviendasPorProvincia = viviendaRepository.casasXProvincia(nombreProvinca);
+       //then
+       Assertions.assertEquals(4, nombreViviendasPorProvincia.size());
+   }
+   @DisplayName("Test buscar viviendas por usuario")
+   @Test
+   void testBuscarPorUsuario(){
+       //given
+       Usuario usuarioBuscado=usuarioRepository.buscarXMail("geronimo@gmail");
+       //when
+       List<Vivienda> nombreViviendasPorProvincia = viviendaRepository.casasXUsuario(usuarioBuscado.getId());
+       //then
+       Assertions.assertEquals(3, nombreViviendasPorProvincia.size());
+   }
+   
+   @DisplayName("Test buscar viviendas por precio mayor pasado por parámetro")
+   @Test
+   void testBuscarPorPrecioMayor(){
+       //given
+       long precio=3000;
+       //when
+       List<Vivienda> viviendasConPrecioMayorPorParametro = viviendaRepository.casasxPrecioMayorA(precio);
+       //then
+       Assertions.assertEquals(2, viviendasConPrecioMayorPorParametro.size());
+   }
+   @DisplayName("Test buscar viviendas por inmobiliaria")
+   @Test
+   void testBuscarPorInmobiliaria(){
+       //given
+       String nombreInmobiliaria="Stevanato";
+       //when
+       List<Vivienda>viviendasConInmobiliariaBuscada = viviendaRepository.listaCasasInmobiliaria(nombreInmobiliaria);
+       //then
+       Assertions.assertEquals(4, viviendasConInmobiliariaBuscada.size());
+   }
+   @DisplayName("Test buscar viviendas por filtrado")
+   @Test
+   void testBuscarPorFiltrado() {
+       //given
+       String nombreInmobiliaria = "Stevanato";
+       String nombreProvincia = "Mendoza";
+       String nombreUbicacion = "Godoy Cruz";
+       String nombreBarrio = "Malcaya";
+       //when
+       List<Vivienda> viviendasConInmobiliariaBuscada = viviendaRepository.filtrado(6000, 2, 3, 6, 200, 4, nombreBarrio, nombreUbicacion, nombreProvincia, nombreInmobiliaria);
+       //then
+       Assertions.assertEquals(3, viviendasConInmobiliariaBuscada.size());
+       
+   }
+   
 }

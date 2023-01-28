@@ -10,96 +10,104 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
+@RequestMapping("/provincia")
 @Controller
-@RequestMapping("/inmobiliaria")
-public class InmobiliariaController {
+public class ProvinciaController {
 
-    @Autowired
-    private InmobiliariaServicioImpl inmobiliariaServicioImpl;
     @Autowired
     private ProvinciaServicioImpl provinciaServicioImpl;
+    @Autowired
+    private InmobiliariaServicioImpl inmobiliariaServicioImpl;
+
+    @GetMapping("/lista")
+    public String listaProvincia(ModelMap modelo) {
+        List<Provincia> lista = provinciaServicioImpl.lista();
+        modelo.put("lista", lista);
+        return "listaProvincia.html";
+    }
 
     @GetMapping("/crear")
-    public String crear(ModelMap modelo) {
-        Inmobiliaria inmo = new Inmobiliaria();
-        modelo.put("inmo", inmo);
+    public String crearProvincia(ModelMap modelo) {
+        Provincia provincia = new Provincia();
+        modelo.put("provincia", provincia);
         modelo.put("accion", "crear");
-        return "crear_inmo.html";
+        return "crear_provincia.html";
     }
 
     @PostMapping("/creacion")
-    public String creacion(ModelMap modelo, @ModelAttribute Inmobiliaria inmo, MultipartFile archivo, RedirectAttributes redirectAttributes) {
-        Inmobiliaria inmob = new Inmobiliaria();
+    public String creacion(ModelMap modelo, @ModelAttribute Provincia provincia, RedirectAttributes redirectAttributes) {
         List<Inmobiliaria> listaInmobiliarias = null;
         List<Provincia> listaProvincias = null;
         try {
-            inmobiliariaServicioImpl.crear(inmo, archivo);
+            provinciaServicioImpl.crear(provincia);
             listaInmobiliarias = inmobiliariaServicioImpl.listaDeInmobiliarias();
             listaProvincias = provinciaServicioImpl.lista();
             modelo.put("listaInmo", listaInmobiliarias);
             modelo.put("listaPro", listaProvincias);
             return "redirect:/admin/home";
         } catch (ErrorServicio e) {
-            modelo.put("inmo", inmob);
             redirectAttributes.addFlashAttribute("mal", e.getMessage());
-            return "redirect:/inmobiliaria/crear";
+            return "redirect:/provincia/crear";
         }
 
     }
 
-    @GetMapping("/modificar/{id}")
-    public String modificacion(@PathVariable String id, ModelMap modelo) {
-        Inmobiliaria inmo = inmobiliariaServicioImpl.buscarXID(id);
-        modelo.put("inmo", inmo);
+    @GetMapping("/modificacion/{id}")
+    public String modificarProvincia(ModelMap modelo, @PathVariable String id) {
+        Provincia provincia = provinciaServicioImpl.buscarID(id);
+        modelo.put("provincia", provincia);
         modelo.put("accion", "modificacion");
-        return "crear_inmo";
+        return "crear_provincia.html";
     }
 
-    @PostMapping("/modificacion")
-    public String modificar(ModelMap modelo, @ModelAttribute Inmobiliaria inmobiliaria, MultipartFile archivo, RedirectAttributes redirectAttributes) {
-        Inmobiliaria inmo = inmobiliariaServicioImpl.buscarXID(inmobiliaria.getId());
+    @PostMapping("/modificar")
+    public String modificaciónProvincia(ModelMap modelo, @ModelAttribute Provincia provincia, RedirectAttributes redirectAttributes) {
+        Provincia provinciaBuscada = null;
         List<Inmobiliaria> listaInmobiliarias = null;
         List<Provincia> listaProvincias = null;
         try {
-            inmobiliariaServicioImpl.modificacion(inmobiliaria, archivo);
+            provinciaServicioImpl.modificar(provincia);
             listaInmobiliarias = inmobiliariaServicioImpl.listaDeInmobiliarias();
             listaProvincias = provinciaServicioImpl.lista();
             modelo.put("listaInmo", listaInmobiliarias);
             modelo.put("listaPro", listaProvincias);
             return "redirect:/admin/home";
         } catch (ErrorServicio e) {
+//            listaInmobiliarias = inmobiliariaServicioImpl.listaDeInmobiliarias();
+//            listaProvincias = provinciaServicioImpl.lista();
+//            modelo.put("listaInmo", listaInmobiliarias);
+//            modelo.put("listaPro", listaProvincias);
+            provinciaBuscada = provinciaServicioImpl.buscarID(provincia.getId());
             redirectAttributes.addFlashAttribute("mal", e.getMessage());
-            modelo.put("inmo", inmo);
-            return "redirect:/inmobiliaria/modificar/" + inmo.getId();
+            return "redirect:/provincia/modificacion/" + provinciaBuscada.getId();
         }
     }
 
-    @GetMapping("/eliminar/{id}")
-    public String eliminarInmobiliaria(@PathVariable String id, ModelMap modelo,RedirectAttributes redirectAttributes) {
+    @GetMapping("/delete/{id}")
+    public String eliminarProvincia(@PathVariable String id, RedirectAttributes redirectAttributes,ModelMap modelo) {
         List<Inmobiliaria> listaInmobiliarias = null;
         List<Provincia> listaProvincias = null;
         try {
-            inmobiliariaServicioImpl.eliminar(id);
             listaInmobiliarias = inmobiliariaServicioImpl.listaDeInmobiliarias();
             listaProvincias = provinciaServicioImpl.lista();
             modelo.put("listaInmo", listaInmobiliarias);
             modelo.put("listaPro", listaProvincias);
+            provinciaServicioImpl.eliminar(id);
             return "redirect:/admin/home";
         } catch (ErrorServicio e) {
             listaInmobiliarias = inmobiliariaServicioImpl.listaDeInmobiliarias();
             listaProvincias = provinciaServicioImpl.lista();
             modelo.put("listaInmo", listaInmobiliarias);
             modelo.put("listaPro", listaProvincias);
-            redirectAttributes.addFlashAttribute("mal", e.getMessage());
+            redirectAttributes.addAttribute("mal", e.getMessage());
             return "redirect:/admin/home";
         }
+
     }
 }

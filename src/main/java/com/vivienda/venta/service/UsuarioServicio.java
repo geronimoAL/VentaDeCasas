@@ -16,6 +16,7 @@ public interface UsuarioServicio {
     public Usuario buscarID(String id) throws ErrorServicio;
     
     public void validaciones(String nombre, String apellido, String telefono, String clave, String clave2) throws ErrorServicio;
-       
+      
+    public void cambiarRol(Usuario usuario);
     
 }

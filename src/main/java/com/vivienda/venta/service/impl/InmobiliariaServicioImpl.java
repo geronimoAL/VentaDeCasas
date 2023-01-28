@@ -29,33 +29,40 @@ public class InmobiliariaServicioImpl implements InmobiliariaServicio {
     @Transactional
     public void crear(Inmobiliaria inmo, MultipartFile foto) throws ErrorServicio {
         validacion(inmo.getNombre(), foto);
-        Inmobiliaria inmob = new Inmobiliaria();
-        inmob.setNombre(inmo.getNombre());
+        if (buscarPorNombre(inmo.getNombre())) {
+            throw new ErrorServicio("El nombre ingresado ya está en la base de datos");
+        }
         Foto fot = fotoservicio.guardar(foto);
-        inmob.setFoto(fot);
-        inmob.setEstado(true);
+        Inmobiliaria inmob = Inmobiliaria.builder()
+                .nombre(inmo.getNombre())
+                .foto(fot)
+                .estado(true)
+                .build();
         inmobiliariarepositorio.save(inmob);
     }
 
     //modificacion de la inmobiliaria
     @Transactional
-    public void modificacion(String id, String nombre, MultipartFile foto) throws ErrorServicio {
-        Inmobiliaria inmo = inmobiliariarepositorio.findById(id).get();
-        validacion(nombre, foto);
-        inmo.setNombre(nombre);
-        Foto fot = fotoservicio.modificar(id, foto);
-        inmo.setFoto(fot);
-        inmo.setEstado(true);
-        inmobiliariarepositorio.save(inmo);
+    public void modificacion(Inmobiliaria inmo, MultipartFile foto) throws ErrorServicio {
+        if (buscarPorNombre(inmo.getNombre())) {
+            throw new ErrorServicio("El nombre ingresado ya está en la base de datos");
+        }
+        Inmobiliaria inmobiliariaBuscada = inmobiliariarepositorio.getById(inmo.getId());
+        validacion(inmo.getNombre(), foto);
+        inmobiliariaBuscada.setNombre(inmo.getNombre());
+        Foto fot = fotoservicio.modificar(inmo.getId(), foto);
+        inmobiliariaBuscada.setFoto(fot);
+        inmobiliariaBuscada.setEstado(true);
+        inmobiliariarepositorio.save(inmobiliariaBuscada);
 
     }
 
     //eliminar inmobiliaria
     @Transactional
     public void eliminar(String id) throws ErrorServicio {
-        Inmobiliaria inmo = inmobiliariarepositorio.findById(id).get();
-        if (inmo != null) {
-            inmobiliariarepositorio.delete(inmo);
+//        Inmobiliaria inmo = inmobiliariarepositorio.findById(id).get();
+        if (id != null) {
+            inmobiliariarepositorio.deleteById(id);
         } else {
             log.error("El id {} no se encontró para eliminar",id);
             throw new ErrorServicio("No se pudo encontrar la inmobiliaria que querias eliminar");
@@ -115,6 +122,14 @@ public class InmobiliariaServicioImpl implements InmobiliariaServicio {
             throw new ErrorServicio("Debe cargar una foto si o si");
         }
 
+    }
+    public boolean buscarPorNombre(String nombre){
+        Inmobiliaria provinciaExiste=inmobiliariarepositorio.nombreInmobiliaria(nombre);
+        if (provinciaExiste !=null ) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

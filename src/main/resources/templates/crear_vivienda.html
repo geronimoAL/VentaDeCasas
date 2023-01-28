@@ -9,9 +9,9 @@
         <title>Guardar vivienda </title>
     </head>
     <body>
-        <div th:if="${mal != null}" th:text="${mal}" class="alert alert-danger" role="alert">
-        </div>
+        
         <div class='container '>
+            <div th:if="${mal != null}" th:text="${mal}" class="alert alert-danger" role="alert"></div>
                 <form   class="mt-2 " th:action="@{/vivienda/__${accion}__}" method="POST" enctype="multipart/form-data" th:object="${vivienda}" >
                     <input th:value="${usuario.id}" name="usuario" hidden>
                     <div class="row justify-content-center">
@@ -20,27 +20,27 @@
                     <input hidden th:field="*{id}" >
                     <div class="form-row mt-2">
                     <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6  letra">
-                        <label>Precio</label> <input type="text"  id="precio" class="form-control border border-secondary"   th:field="*{precio}">
+                        <label>Precio</label> <input type="number"  id="precio" class="form-control border border-secondary"   th:field="*{precio}">
                     </div>
 
                     <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 letra">
-                        <label>Cantidad de baños</label> <input type="text"  id="banio" class="form-control border border-secondary"  th:field="*{banio}">
+                        <label>Cantidad de baños</label> <input type="number"  id="banio" class="form-control border border-secondary"  th:field="*{banio}">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 letra">
-                        <label>Cantidad de cocheras</label> <input type="text"  id="cochera" class="form-control border border-secondary"  th:field="*{cochera}">
+                        <label>Cantidad de cocheras</label> <input type="number"  id="cochera" class="form-control border border-secondary"  th:field="*{cochera}">
                     </div>
                     <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 letra">
-                        <label>Cantidad de dormitorios</label> <input type="text"  id="dormitorio" class="form-control border border-secondary"   th:field="*{dormitorio}">
+                        <label>Cantidad de dormitorios</label> <input type="number"  id="dormitorio" class="form-control border border-secondary"   th:field="*{dormitorio}">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 letra">
-                        <label>Metro cuadrado de la casa</label> <input type="text"  id="mt" class="form-control border border-secondary" th:field="*{mt}">
+                        <label>Metro cuadrado de la casa</label> <input type="number"  id="mt" class="form-control border border-secondary" th:field="*{mt}">
                     </div>
                     <div class="form-group col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 letra">
-                        <label>Cuantos ambientes tiene?</label> <input type="text"  id="ambiente" class="form-control border border-secondary"   th:field="*{ambiente}">
+                        <label>Cuantos ambientes tiene?</label> <input type="number"  id="ambiente" class="form-control border border-secondary"   th:field="*{ambiente}">
                     </div>
                 </div>
                 <div class="form-row">

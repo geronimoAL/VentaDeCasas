@@ -9,10 +9,13 @@
         <title>Guardar Inmobiliaria</title>
     </head>
     <body>
-        <div th:if="${mal != null}" th:text="${mal}" class="alert alert-danger" role="alert">
-        </div>
+
         <div class="container">
-            <form class="mt-5" th:action="@{/inmobiliaria/creacion}" method="POST" enctype="multipart/form-data" th:object="${inmo}">
+            <div th:if="${mal != null}" th:text="${mal}" class="alert alert-danger" role="alert">
+            </div>
+            <h1 th:text="${accion== 'crear' ? 'INGRESE LA PROVINCIA' : 'MODIFICACIÓN DE LA  INMOBILIARIA'}" class='text-DARK justify-content-end align-items-start'>  </h1>
+
+            <form class="mt-5" method="POST" enctype="multipart/form-data" th:object="${inmo}">
                 <input hidden th:field="*{id}" >
                 <div class="form-group col-12 col-sm-5 col-md-6 col-lg-4 col-xl-5 letra">
                     <label>Nombre</label> <input type="text" class="form-control border border-secondary"   th:field="*{nombre}">
@@ -21,8 +24,9 @@
                     <label>Foto</label> <input type="file" class="form-control  border border-secondary" name="archivo">
                 </div>
                 <div class="form-group col-12 col-sm-5 col-md-6 col-lg-4 col-xl-5">
-                <button class="mt-2 btn btn-primary letra" type="submit">GUARDAR</button>
-            </div>
+                    <button th:if="${accion =='crear'}"type="submit" class="btn btn-primary" formaction="/inmobiliaria/creacion" formmethod="POST">GUARDAR</button>
+                    <button th:if="${accion =='modificacion'}"type="submit" class="btn btn-primary" formaction="/inmobiliaria/modificacion" formmethod="POST">MODIFICAR</button>
+                </div>
             </form>
         </div>
 

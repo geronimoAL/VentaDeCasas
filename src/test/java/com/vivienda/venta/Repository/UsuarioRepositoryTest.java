@@ -21,16 +21,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
 public class UsuarioRepositoryTest {
-    @Autowired
-    private UsuarioRepository  usuarioRepository;
-    
-    @DisplayName("Test para buscar una inmobiliaria")
-    @Test
-    void testBuscarPorCorreo(){
+   @Autowired
+   private UsuarioRepository  usuarioRepository;
+   
+   @DisplayName("Test para buscar una inmobiliaria")
+   @Test
+   void testBuscarPorCorreo(){
 
-        Usuario inmobiliariaEncontrada = usuarioRepository.buscarXMail("martin@gmail");
+       Usuario inmobiliariaEncontrada = usuarioRepository.buscarXMail("martin@gmail");
 
-         Assertions.assertNotNull(inmobiliariaEncontrada);
-    }
-    
+        Assertions.assertNotNull(inmobiliariaEncontrada);
+   }
+   
 }

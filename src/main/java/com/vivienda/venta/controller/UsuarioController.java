@@ -75,7 +75,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/modificacion")
-    public String modificar(HttpSession session, ModelMap modelo, @ModelAttribute Usuario usuario, @RequestParam String clave1) throws ErrorServicio {
+    public String modificar(RedirectAttributes redirectAttributes,HttpSession session, ModelMap modelo, @ModelAttribute Usuario usuario, @RequestParam String clave1) throws ErrorServicio {
         Usuario usu = usServicioImpl.buscarID(usuario.getId());
         try {
             Usuario login = (Usuario) session.getAttribute("usuariosession");
@@ -88,8 +88,8 @@ public class UsuarioController {
             modelo.put("lista", lista);
             return "inicio.html";
         } catch (ErrorServicio e) {
-            modelo.put("mal", e.getMessage());
-            modelo.put("usuario", usu);
+            redirectAttributes.addFlashAttribute("mal", e.getMessage());
+             redirectAttributes.addFlashAttribute("usuario", usu);
             return "redirect:/usuario/modificar/" + usu.getId();
         }
     }

@@ -9,7 +9,7 @@ public interface InmobiliariaServicio {
 
     public void crear(Inmobiliaria inmo, MultipartFile foto) throws ErrorServicio;
 
-    public void modificacion(String id, String nombre, MultipartFile foto) throws ErrorServicio;
+    public void modificacion(Inmobiliaria inmo, MultipartFile foto) throws ErrorServicio;
 
     public void eliminar(String id) throws ErrorServicio;
 
