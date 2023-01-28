@@ -206,7 +206,8 @@ public class ViviendaServicioImpl implements ViviendaServicio {
     }
 
     @Override
-    public void validacionNumeros(Long cochera, Long ambiente, Long precio, Long banio, Long dormitorios, Long mt) {
+    public void validacionNumeros(Long cochera, Long ambiente, Long precio, Long banio, 
+            Long dormitorios, Long mt)throws ErrorServicio {
         if (precio < 0) {
             throw new ErrorServicio("Ingreso números negativos");
         }

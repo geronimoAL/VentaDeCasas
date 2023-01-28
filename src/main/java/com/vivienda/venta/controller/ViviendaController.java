@@ -57,7 +57,8 @@ public class ViviendaController {
     }
 
     @PostMapping("/creacion")
-    public String creacion(RedirectAttributes redirectAttributes, @ModelAttribute Vivienda vivienda, MultipartFile archivo, MultipartFile archivo1, MultipartFile archivo2, MultipartFile archivo3, @RequestParam String usuario, ModelMap modelo) {
+    public String creacion(RedirectAttributes redirectAttributes, @ModelAttribute Vivienda vivienda, MultipartFile archivo, MultipartFile archivo1, MultipartFile archivo2,
+            MultipartFile archivo3, @RequestParam String usuario, ModelMap modelo)throws ErrorServicio {
         Vivienda vivi = new Vivienda();
         try {
             viviendaServicioImpl.crear(vivienda, archivo, archivo1, archivo2, archivo3, usuario);

@@ -29,6 +29,9 @@ public class InmobiliariaServicioImpl implements InmobiliariaServicio {
     @Transactional
     public void crear(Inmobiliaria inmo, MultipartFile foto) throws ErrorServicio {
         validacion(inmo.getNombre(), foto);
+        if (buscarPorNombre(inmo.getNombre())) {
+            throw new ErrorServicio("El nombre ingresado ya está en la base de datos");
+        }
         Foto fot = fotoservicio.guardar(foto);
         Inmobiliaria inmob = Inmobiliaria.builder()
                 .nombre(inmo.getNombre())
@@ -40,14 +43,17 @@ public class InmobiliariaServicioImpl implements InmobiliariaServicio {
 
     //modificacion de la inmobiliaria
     @Transactional
-    public void modificacion(String id, String nombre, MultipartFile foto) throws ErrorServicio {
-        Inmobiliaria inmo = inmobiliariarepositorio.findById(id).get();
-        validacion(nombre, foto);
-        inmo.setNombre(nombre);
-        Foto fot = fotoservicio.modificar(id, foto);
-        inmo.setFoto(fot);
-        inmo.setEstado(true);
-        inmobiliariarepositorio.save(inmo);
+    public void modificacion(Inmobiliaria inmo, MultipartFile foto) throws ErrorServicio {
+        if (buscarPorNombre(inmo.getNombre())) {
+            throw new ErrorServicio("El nombre ingresado ya está en la base de datos");
+        }
+        Inmobiliaria inmobiliariaBuscada = inmobiliariarepositorio.getById(inmo.getId());
+        validacion(inmo.getNombre(), foto);
+        inmobiliariaBuscada.setNombre(inmo.getNombre());
+        Foto fot = fotoservicio.modificar(inmo.getId(), foto);
+        inmobiliariaBuscada.setFoto(fot);
+        inmobiliariaBuscada.setEstado(true);
+        inmobiliariarepositorio.save(inmobiliariaBuscada);
 
     }
 
@@ -116,6 +122,14 @@ public class InmobiliariaServicioImpl implements InmobiliariaServicio {
             throw new ErrorServicio("Debe cargar una foto si o si");
         }
 
+    }
+    public boolean buscarPorNombre(String nombre){
+        Inmobiliaria provinciaExiste=inmobiliariarepositorio.nombreInmobiliaria(nombre);
+        if (provinciaExiste !=null ) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

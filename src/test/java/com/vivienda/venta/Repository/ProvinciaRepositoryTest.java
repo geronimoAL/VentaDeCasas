@@ -20,17 +20,17 @@ import com.vivienda.venta.repository.ProvinciaRepository;
 @SpringBootTest
 public class ProvinciaRepositoryTest {
 
-    @Autowired
-    private ProvinciaRepository provinciaRepository;
-    
-    @DisplayName("Test para buscar una provincia")
-    @Test
-    void testBuscarPorNombre(){
-        Provincia provincia1 = provinciaRepository.buscarXNombre("chicago");
+   @Autowired
+   private ProvinciaRepository provinciaRepository;
+   
+   @DisplayName("Test para buscar una provincia")
+   @Test
+   void testBuscarPorNombre(){
+       Boolean provincia1 = provinciaRepository.buscarXNombre("chicago");
 
-         Assertions.assertNotNull(provincia1);
-    }
-    
+        Assertions.assertNotNull(provincia1);
+   }
+   
 
     
 }

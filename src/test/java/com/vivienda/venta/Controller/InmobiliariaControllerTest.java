@@ -23,44 +23,44 @@ import org.junit.jupiter.api.Test;
 @SpringBootTest
 public class InmobiliariaControllerTest {
    
-    private MockMvc mockMvc;
-    
-    @Mock
-    private InmobiliariaServicioImpl inmobiliariaServicioImpl;
-    
-    private Inmobiliaria inmobiliaria;
-    
-    private MultipartFile foto;
-    
-    @BeforeEach
-    private void setup(){
-        inmobiliaria= Inmobiliaria.builder()
-                .estado(Boolean.TRUE)
-                .nombre("MATRIZ")
-                .build();
-        
-    }
-    
-    @DisplayName("Crear inmobiliaria")
-    @Test
-    public void crearInmobiliariaTest() throws Exception{
-        //given
-        BDDMockito.doNothing().when(inmobiliariaServicioImpl).crear(inmobiliaria, foto);
-        //when
-        inmobiliariaServicioImpl.crear(inmobiliaria, foto);
-        //then
-        BDDMockito.verify(inmobiliariaServicioImpl,times(1)).crear(inmobiliaria, foto);
-    }
-    
-    @DisplayName("Modificar inmobiliaria")
-    @Test
-    public void modificarInmobiliariaTest() throws Exception{
-        //given
-        BDDMockito.doNothing().when(inmobiliariaServicioImpl).modificacion("1L", "Remax", foto);
-        //when
-        inmobiliariaServicioImpl.modificacion("1L", "Remax", foto);
-        //then
-        BDDMockito.verify(inmobiliariaServicioImpl,times(1)).modificacion("1L", "Remax", foto);
-    }
-    
+   private MockMvc mockMvc;
+   
+   @Mock
+   private InmobiliariaServicioImpl inmobiliariaServicioImpl;
+   
+   private Inmobiliaria inmobiliaria;
+   
+   private MultipartFile foto;
+   
+   @BeforeEach
+   private void setup(){
+       inmobiliaria= Inmobiliaria.builder()
+               .estado(Boolean.TRUE)
+               .nombre("MATRIZ")
+               .build();
+       
+   }
+   
+   @DisplayName("Crear inmobiliaria")
+   @Test
+   public void crearInmobiliariaTest() throws Exception{
+       //given
+       BDDMockito.doNothing().when(inmobiliariaServicioImpl).crear(inmobiliaria, foto);
+       //when
+       inmobiliariaServicioImpl.crear(inmobiliaria, foto);
+       //then
+       BDDMockito.verify(inmobiliariaServicioImpl,times(1)).crear(inmobiliaria, foto);
+   }
+   
+   @DisplayName("Modificar inmobiliaria")
+   @Test
+   public void modificarInmobiliariaTest() throws Exception{
+       //given
+       BDDMockito.doNothing().when(inmobiliariaServicioImpl).modificacion(inmobiliaria, foto);
+       //when
+       inmobiliariaServicioImpl.modificacion(inmobiliaria, foto);
+       //then
+       BDDMockito.verify(inmobiliariaServicioImpl,times(1)).modificacion(inmobiliaria, foto);
+   }
+   
 }

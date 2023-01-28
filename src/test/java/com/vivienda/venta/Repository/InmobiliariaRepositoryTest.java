@@ -22,20 +22,20 @@ import org.junit.jupiter.api.Assertions;
 @SpringBootTest
 public class InmobiliariaRepositoryTest {
 
-    @Autowired
-    private InmobiliariaRepository inmobiliariaRepository;
+   @Autowired
+   private InmobiliariaRepository inmobiliariaRepository;
 
-    @DisplayName("Test para buscar una inmobiliaria")
-    @Test
-    void testBuscarPorId() {
-        Inmobiliaria inmobiliaria = Inmobiliaria.builder()
-                .estado(true)
-                .nombre("REMAX")
-                .build();
-        inmobiliariaRepository.save(inmobiliaria);
+   @DisplayName("Test para buscar una inmobiliaria")
+   @Test
+   void testBuscarPorId() {
+       Inmobiliaria inmobiliaria = Inmobiliaria.builder()
+               .estado(true)
+               .nombre("REMAX")
+               .build();
+       inmobiliariaRepository.save(inmobiliaria);
 
-        Inmobiliaria inmobiliariaEncontrada = inmobiliariaRepository.findById(inmobiliaria.getId()).get();
+       Inmobiliaria inmobiliariaEncontrada = inmobiliariaRepository.findById(inmobiliaria.getId()).get();
 
-        Assertions.assertNotNull(inmobiliariaEncontrada);
-    }
+       Assertions.assertNotNull(inmobiliariaEncontrada);
+   }
 }

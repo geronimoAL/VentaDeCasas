@@ -1,0 +1,11 @@
+body{
+  background-image: url("../img/cambioRol.jpg") ;
+  background-position: center center;
+background-size: cover;
+background-attachment: fixed;
+background-color: aqua;
+}
+.login{
+    width: 90px;
+    height: 70px;;
+}

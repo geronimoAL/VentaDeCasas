@@ -54,7 +54,7 @@ public class FotoServicio {
                
                
            }catch(Exception e){
-               System.err.println(e.getMessage());
+               System.err.println("la foto no se cargó "+e.getMessage());
            }
             
         }

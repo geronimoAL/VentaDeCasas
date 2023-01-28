@@ -2,7 +2,7 @@
 package com.vivienda.venta.errors;
 
 
-public class ErrorServicio extends RuntimeException {
+public class ErrorServicio extends Exception {
 
     public ErrorServicio() {
     }
