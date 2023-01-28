@@ -32,7 +32,7 @@ Lenguaje
 
 ## Framework
 
-* Spring Framework
+* Spring Framework 
 
 * Bootstrap 4
 
@@ -43,3 +43,8 @@ Lenguaje
 # Para pruebas
 * Junit 4
 * Mockito
+
+# Front
+* HTML 5
+* CSS
+* THYMELEAF
