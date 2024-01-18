@@ -39,7 +39,6 @@ public class UsuarioServicioImpl implements UsuarioServicio, UserDetailsService 
     @Autowired
     public RolRepository rolRepository;
 
-    //creacion del usuario
     @Transactional
     public void crear(Usuario usuario, String clave) throws ErrorServicio {
         validaciones(usuario.getNombre(), usuario.getApellido(), usuario.getTelefono(), usuario.getClave(), clave);
@@ -61,7 +60,6 @@ public class UsuarioServicioImpl implements UsuarioServicio, UserDetailsService 
         usuariorepositorio.save(usu);
     }
 
-    //modificacion del usuario
     @Transactional
     public void modificar(Usuario usuario, String clave) throws ErrorServicio {
         Usuario usuarioBuscado = usuariorepositorio.findById(usuario.getId()).get();
@@ -75,7 +73,6 @@ public class UsuarioServicioImpl implements UsuarioServicio, UserDetailsService 
             String claveEcriptada = new BCryptPasswordEncoder().encode(usuario.getClave());
             usuarioBuscado.setClave(claveEcriptada);
             usuariorepositorio.save(usuarioBuscado);
-//
         } else {
             log.error("No se encontro el id {} oara modificar", usuario.getId());
             throw new ErrorServicio("No se encontro el id del usuario para modificar");
@@ -83,16 +80,14 @@ public class UsuarioServicioImpl implements UsuarioServicio, UserDetailsService 
 
     }
 
-    //eliminar usuario
     @Transactional
     public void eliminar(String id) {
         Usuario usu = usuariorepositorio.findById(id).get();
         usuariorepositorio.delete(usu);
 
     }
-    //buscar el usuario x su id
 
-//    @Transactional(readOnly = true)
+    @Transactional(readOnly = true)
     public Usuario buscarID(String id) throws ErrorServicio {
         Optional<Usuario> respuesta = usuariorepositorio.findById(id);
         if (respuesta.isPresent()) {
@@ -111,7 +106,7 @@ public class UsuarioServicioImpl implements UsuarioServicio, UserDetailsService 
         respuesta.setRoles(usuario.getRoles());
     }
 
-    //metdodo para que no lleguen vacios, nulo o error de tipeo 
+    
     public void validaciones(String nombre, String apellido, String telefono, String clave, String clave2) throws ErrorServicio {
         if (nombre.isEmpty() || nombre == null) {
             log.error("Error!! Campo nombre en blanco o nulo");

@@ -13,7 +13,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @Controller
 public class PortalControlador {
 
@@ -56,7 +57,15 @@ public class PortalControlador {
         return "busqueda.html";
     }
     @GetMapping("filtrar")
-    public String filtrado(ModelMap modelo,@RequestParam(required = false) long precio,@RequestParam(required = false) long banio,@RequestParam(required = false) long cochera,@RequestParam(required = false) long dormitorio,@RequestParam(required = false) long mt, @RequestParam(required = false) long ambiente,@RequestParam(required = false) String barrio, @RequestParam(required = false) String ubicacion,@RequestParam String provincia,@RequestParam String inmobiliaria){
+    public String filtrado(ModelMap modelo,@RequestParam(required = false, defaultValue = "0") long precio,
+            @RequestParam(required = false, defaultValue = "0") long banio,
+            @RequestParam(required = false, defaultValue = "0") long cochera,
+            @RequestParam(required = false, defaultValue = "0") long dormitorio,
+            @RequestParam(required = false, defaultValue = "0") long mt, 
+            @RequestParam(required = false, defaultValue = "0") long ambiente,
+            @RequestParam(required = false) String barrio, 
+            @RequestParam(required = false) String ubicacion,
+            @RequestParam String provincia,@RequestParam String inmobiliaria){
         List<Vivienda>lista=viviendaServicioImpl.filtrado(precio,banio,cochera,dormitorio,mt,ambiente,barrio,ubicacion,provincia,inmobiliaria);
         modelo.put("lista_total","filtrado");
         modelo.put("accion", "filtrado");
