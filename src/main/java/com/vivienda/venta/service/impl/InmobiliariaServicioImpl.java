@@ -25,7 +25,6 @@ public class InmobiliariaServicioImpl implements InmobiliariaServicio {
     @Autowired
     public FotoServicio fotoservicio;
 
-    //creacion de la inmobiliaria
     @Transactional
     public void crear(Inmobiliaria inmo, MultipartFile foto) throws ErrorServicio {
         validacion(inmo.getNombre(), foto);
@@ -41,7 +40,6 @@ public class InmobiliariaServicioImpl implements InmobiliariaServicio {
         inmobiliariarepositorio.save(inmob);
     }
 
-    //modificacion de la inmobiliaria
     @Transactional
     public void modificacion(Inmobiliaria inmo, MultipartFile foto) throws ErrorServicio {
         if (buscarPorNombre(inmo.getNombre())) {
@@ -57,10 +55,8 @@ public class InmobiliariaServicioImpl implements InmobiliariaServicio {
 
     }
 
-    //eliminar inmobiliaria
     @Transactional
     public void eliminar(String id) throws ErrorServicio {
-//        Inmobiliaria inmo = inmobiliariarepositorio.findById(id).get();
         if (id != null) {
             inmobiliariarepositorio.deleteById(id);
         } else {
@@ -70,7 +66,6 @@ public class InmobiliariaServicioImpl implements InmobiliariaServicio {
 
     }
 
-    //deshabilitar la inmobiliaria.No es borrarla sino que se quedara en la base de datos
     @Transactional
     public void deshabiliar(String id) throws ErrorServicio {
         Inmobiliaria inmo = inmobiliariarepositorio.findById(id).get();
@@ -83,7 +78,6 @@ public class InmobiliariaServicioImpl implements InmobiliariaServicio {
         }
     }
 
-    //habilitar la inmobiliaria.No es borrarla sino que se quedara en la base de datos
     @Transactional
     public void habilitar(String id) throws ErrorServicio {
         Inmobiliaria inmo = inmobiliariarepositorio.findById(id).get();
@@ -97,13 +91,11 @@ public class InmobiliariaServicioImpl implements InmobiliariaServicio {
         }
     }
 
-    //me trae una inmobiliaria x el id que me llega x parametro
     public Inmobiliaria buscarXID(String id) {
         Inmobiliaria inmo = inmobiliariarepositorio.findById(id).get();
         return inmo;
     }
 
-    //metodo para traer todas las inmobiliarias
     @Transactional(readOnly = true)
     public List<Inmobiliaria> listaDeInmobiliarias() {
         List<Inmobiliaria> lista = inmobiliariarepositorio.lista();
